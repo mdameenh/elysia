@@ -5,7 +5,7 @@ Created on Mon Oct  2 22:42:37 2017
 @author: Ameen
 """
 
-from django.http import HttpResponse
+from django.shortcuts import render
 
 def pathfinder(request):
-    return HttpResponse("Entry point for PathFinder.")
+    return render(request, 'pathfinder.html')
