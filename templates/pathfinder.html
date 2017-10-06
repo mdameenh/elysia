@@ -1,31 +1,17 @@
 <!DOCTYPE HTML>
 <html lang="en"><head>
-	<title>Fantasy Premier League - Assistant</title>
+	<title>Path Finder</title>
 	<meta http-equiv="Content-type" content="text/html;charset=utf-8">
 	<link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet"> 
 	<link rel="stylesheet" type="text/css" href="../static/css/mystyle.css">
 	
 	 <script type="text/javascript">
     	 function updateTable(){
-        	 var updateTable_request = new XMLHttpRequest();
-        	 var params = "cost="+document.getElementById('cost_slider').value.toString()+"&fixture_difficulty="+document.getElementById('fixture_diff_slider').value.toString();
-        	 var parameters = {
-                "cost": document.getElementById('cost_slider').value.toString(),
-                "fixture_difficulty": document.getElementById('fixture_diff_slider').value.toString()
-            };
-            
-        	 updateTable_request.onload = function(){ 
-            	 window.alert(this.response);
-            	 }        	 
-        	 window.alert(JSON.stringify(parameters));
-        	 updateTable_request.open("GET", "updateTable?"+params, true);
-        	 updateTable_request.send(null);
-        	     
     	 }
     	 
         function getTableOnload() {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'genTable', false);
+            xhr.open('GET', 'create_table', false);
             xhr.onload = function(e) {
                 player_data = JSON.parse(this.response);
                 var player_table = document.getElementById('player_table');
@@ -180,7 +166,7 @@
 		<div style="float:right; width:85%">
 			<br><br>
 			<div style="margin-left:18px; font-size: 16px;">Player List</div>
-			<div style="overflow:auto">
+			<div>
 				<table id="player_table">
 					<tbody><tr style="background-color: #a5a5a5;">
 						<td>Id</td>
