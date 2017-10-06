@@ -25,7 +25,7 @@ SECRET_KEY = '0tc)4dc7^lt3z&!te+&7&jdgf$wtcq)t66*_!lfohzx^w$__yq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'mdameenh.pythonanywhere.com', 'fplassist.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'elysia1.herokuapp.com']
 
 # Application definition
 
