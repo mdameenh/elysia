@@ -1,0 +1,1 @@
+web: gunicorn fplassist.wsgi --log-file -

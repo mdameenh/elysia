@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html lang="en"><head>
+	<title>Fantasy Premier League - Assistant</title>
+	<meta http-equiv="Content-type" content="text/html;charset=utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet"> 
+	<link rel="stylesheet" type="text/css" href="../static/css/mystyle.css">
+	
+	 <script src="../static/scripts/sql.js"></script>
+	 <script type="text/javascript">
+    	 function updateTable(){
+        	 var updateTable_request = new XMLHttpRequest();
+        	 var params = "cost="+document.getElementById('cost_slider').value.toString()+"&fixture_difficulty="+document.getElementById('fixture_diff_slider').value.toString();
+        	 var parameters = {
+                "cost": document.getElementById('cost_slider').value.toString(),
+                "fixture_difficulty": document.getElementById('fixture_diff_slider').value.toString()
+            };
+            
+        	 updateTable_request.onload = function(){ 
+            	 window.alert(this.response);
+            	 }        	 
+        	 window.alert(JSON.stringify(parameters));
+        	 updateTable_request.open("GET", "updateTable?"+params, true);
+        	 updateTable_request.send(null);
+        	     
+    	 }
+    	 
+        function getTableOnload() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'genTable', false);
+            xhr.onload = function(e) {
+                player_data = JSON.parse(this.response);
+                var player_table = document.getElementById('player_table');
+                var table_len = player_table.rows.length - 1;
+                
+                for(count=0; count<player_data.length; count++){
+                    player = player_data[count];
+                    var row = player_table.insertRow(count+1);
+                    for(cell_count=0; cell_count<player.length; cell_count++){
+                        row.insertCell(cell_count).innerHTML = player[cell_count]
+                    }
+                }
+                document.getElementById('status').innerHTML = "Connection Successful";
+                }
+            xhr.send();
+        	}
+	
+    	if (window.addEventListener)
+    		window.addEventListener("load", getTableOnload, false);
+    	else if (window.attachEvent)
+    		window.attachEvent("onload", getTableOnload);
+    	else window.onload = getTableOnload;
+    </script>
+</head>
+
+<body>
+<div class="myheader">
+	<div style="width:100%; overflow:auto; background-color: #00ff87;">
+		<div style="float:left;">
+			<img src="../static/images/index.png" width="187px" height="132px">
+		</div>
+		<div style="float:right">
+			<p class="header_text">FPL Assist</p>
+			<p class="quote_text">Cos there's two times of year for me: Football season, and waiting for football season.</p>
+		</div>
+	</div>
+	<div style="width:100%; overflow:auto; background-color: #38003c;">
+    	<div id="status" class="status_text">Loading</div>
+    </div>
+	
+	<div style="width:90%; position:absolute; height:auto; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 6px 0 rgba(0,0,0,0.12);">
+		<div style="float:left; width:15%; position:absolute; height:100%; background-color: #E4E6E5;">
+			<br><br>
+			<div style="margin-left:10px; font-size: 16px;">
+				Adjust your search criteria:
+				<div style="margin-left:10px; margin-top:20px; margin-bottom:20px; font-size: 12px;">
+					<div>
+						<div style="margin-top:20px;">Position</div>
+						<div style="margin-top:10px;">
+							 <select>
+							  <option value="ALL">All</option>
+							  <option value="GKP">Goal Keeper</option>
+							  <option value="DEF">Defender</option>
+							  <option value="MID">Midfielder</option>
+							  <option value="FWD">Forward</option>
+							</select> 
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Cost</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="cost_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Fixture Difficulty</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="fixture_diff_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Points</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="points_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Form</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="form_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Transfer In</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="transfer_in_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Transfer Out</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="transfer_out_slider" type="range">
+						</div>
+					</div>					
+					<div>
+						<div style="margin-top:20px;">Threat</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="threat_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Bonus</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="bonus_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Availability</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="avail_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Clean Sheet</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="cs_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Yellow/Red Cards</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="myRange" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Selected By</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="sel_by_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Minutes</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="minutes_slider" type="range">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Saves</div>
+						<div style="margin-top:10px;">
+							<input min="0" max="100" value="0" class="slider" id="saves_slider" type="range">
+						</div>
+					</div>
+					<div>
+    					<div style="margin-top:10px;">
+        					<input type="button" id="updatetable" onclick="updateTable()" value="Update Table">
+    					</div>
+    				</div>
+				</div>
+			</div>
+			
+		</div>
+		<div style="float:right; width:85%">
+			<br><br>
+			<div style="margin-left:18px; font-size: 16px;">Player List</div>
+			<div>
+				<table id="player_table">
+					<tbody><tr style="background-color: #a5a5a5;">
+						<td>Id</td>
+						<td>Name</td>
+						<td>Cost</td>
+						<td>Position</td>
+						<td>Points</td>
+						<td>Form</td>
+						<td>Fixtures</td>
+						<td>Transfer In</td>
+						<td>Transfer out</td>
+						<td>Threat</td>
+						<td>Bonus</td>
+						<td>Availability</td>
+						<td>CleanSheet</td>
+						<td>Cards</td>
+						<td>Selected By</td>
+						<td>Minutes</td>
+						<td>Saves</td>
+					</tr>
+					<tr><th>&nbsp;</th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+				</tbody></table>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+
+</body></html>

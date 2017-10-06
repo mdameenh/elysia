@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+	<title>Fantasy Premier League - Assistant</title>
+	<meta http-equiv="Content-type" content="text/html;charset=utf-8">
+	<link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet"> 
+	<style>
+	.header_text {
+		margin-right:5%;
+		margin-top:3%;
+		margin-bottom:2%;
+		color:#38003c;
+		font-size: 60px;
+		font-family: 'Libre Barcode 39 Text', cursive;
+		text-align: right;
+		vertical-align: middle;
+		text-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 6px 0 rgba(0,0,0,0.12);
+		}
+		
+	.quote_text {
+		margin-right:5%;
+		margin-bottom:2%;
+		color:#38003c;
+		font-size: 12px;
+		font-family:Verdana, sans-serif;
+		text-align: right;
+		vertical-align: middle;
+		}
+		
+	.status_text {
+		margin-right:1%;
+		color:#FFFFFF;
+		font-size: 14px;
+		font-family:Verdana, sans-serif;
+		text-align: right;
+		line-height:2.5;
+
+		}
+		
+	.myheader {
+	font-family: Segoe, sans-serif;
+	font-size: 18px;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 6px 0 rgba(0,0,0,0.12);
+	margin-left:5%; 
+	margin-right:5%; 
+	}
+	
+	* {margin: 0; color:#38003c;}
+		
+	img {
+		border: 0;
+		margin: 0;
+		display: block;
+		}
+
+	table {
+		margin: 20px;
+		table-layout: auto;
+		width: 98%;
+		}
+
+	th {
+		text-align: left;
+		border-collapse: collapse;
+		font-size: 14px;
+		padding: 6px;
+		}
+
+	td {
+		text-align: left;
+		border-collapse: collapse;
+		font-size: 14px;
+		padding: 6px;}
+
+	tr:nth-child(odd) {
+		background-color: #eaeaea;
+		}
+
+	tr:nth-child(even) {
+		background-color: #ffffff;
+		}
+
+	#slidecontainer {
+			width: 100%;
+		}
+
+	.slider {
+		-webkit-appearance: none;
+		background: transparent;
+		width: 90%;
+		height: 25px;
+		
+		outline: none;
+		opacity: 0.8;
+		-webkit-transition: .2s;
+		transition: opacity .2s;
+	}
+
+	.slider:hover {
+		opacity: 1;
+	}
+	
+	.slider::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 3px;
+      cursor: pointer;
+      background: #787878;
+    }
+    
+    .slider::-moz-range-track {
+      width: 100%;
+      height: 3px;
+      cursor: pointer;
+      background: #787878;
+    }
+
+	.slider::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		height: 12px;
+		width: 12px;
+		margin-top:-5px;
+		background: #38003c;
+		cursor: pointer;
+	}
+
+	.slider::-moz-range-thumb {
+		height: 12px;
+		width: 12px;
+		background: #38003c;
+		cursor: pointer;
+	}
+	</style>
+	
+	 <script src="static/scripts/sql.js"></script> 
+    <script type="text/javascript">
+    	function downloadJSAtOnload() {
+    	var element = document.createElement("script");
+    	element.src = "static/scripts/edittable.js";
+    	document.body.appendChild(element);
+    	}
+    	if (window.addEventListener)
+    		window.addEventListener("load", downloadJSAtOnload, false);
+    	else if (window.attachEvent)
+    		window.attachEvent("onload", downloadJSAtOnload);
+    	else window.onload = downloadJSAtOnload;
+    </script>
+</head>
+
+<body>
+<div class="myheader">
+	<div style="width:100%; overflow:auto; background-color: #00ff87;">
+		<div style="float:left;">
+			<img src="static/images/index.png" height="132px" width="187px" />
+		</div>
+		<div style="float:right">
+			<p class="header_text">FPL Assist</p>
+			<p class="quote_text">Cos there's two times of year for me: Football season, and waiting for football season.</p>
+		</div>
+	</div>
+	<div style="width:100%; background-color: #38003c; height:42px">
+    	<div id="status" class="status_text">Loading..</div>
+    </div>
+	
+	<div style="width:100%; overflow:auto;">
+		<div style="float:left; width:15%; background-color: #E4E6E5;">
+			<br><br>
+			<div style="margin-left:10px; font-size: 16px;">
+				Select your search criteria:
+				<div style="margin-left:10px; margin-top:20px; margin-bottom:20px; font-size: 12px;">
+					<div>
+						<div style="margin-top:20px;">Position</div>
+						<div style="margin-top:10px;">
+							 <select>
+							  <option value="ALL">All</option>
+							  <option value="GKP">Goal Keeper</option>
+							  <option value="DEF">Defender</option>
+							  <option value="MID">Midfielder</option>
+							  <option value="FWD">Forward</option>
+							</select> 
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Cost</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Fixture Difficulty</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Points</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Form</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Transfer In</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Transfer Out</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>					
+					<div>
+						<div style="margin-top:20px;">Threat</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Bonus</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Availability</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Clean Sheet</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Yellow/Red Cards</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Selected By</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Minutes</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+					<div>
+						<div style="margin-top:20px;">Saves</div>
+						<div style="margin-top:10px;">
+							<input type="range" min="1" max="100" value="0" class="slider" id="myRange">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<div style="float:right; width:85%">
+			<br><br>
+			<div style="margin-left:18px; font-size: 16px;">Player List</div>
+			<div>
+				<table id="player_table">
+					<tr style="background-color: #a5a5a5;">
+						<td>Id</td>
+						<td>Name</td>
+						<td>Cost</td>
+						<td>Position</td>
+						<td>Points</td>
+						<td>Form</td>
+						<td>Fixtures</td>
+						<td>Transfer In</td>
+						<td>Transfer out</td>
+						<td>Threat</td>
+						<td>Bonus</td>
+						<td>Availability</td>
+						<td>CleanSheet</td>
+						<td>Cards</td>
+						<td>Selected By</td>
+						<td>Minutes</td>
+						<td>Saves</td>
+					</tr>
+					<tr><th>&nbsp;</th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+				</table>
+			</div>
+		</div>
+		
+	</div>
+</div>
+</body>

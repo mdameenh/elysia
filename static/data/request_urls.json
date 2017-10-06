@@ -1,0 +1,10 @@
+{
+    "teams": "https://fantasy.premierleague.com/drf/teams",
+    "region": "https://fantasy.premierleague.com/drf/teams",
+    "events": "https://fantasy.premierleague.com/drf/events",
+    "elements": "https://fantasy.premierleague.com/drf/elements",
+    "element-types": "https://fantasy.premierleague.com/drf/element-types",
+    "fixtures": "https://fantasy.premierleague.com/drf/fixtures",
+    "bootstrap-static": "https://fantasy.premierleague.com/drf/bootstrap-static",
+    "bootstrap-dynamic": "https://fantasy.premierleague.com/drf/bootstrap-dynamic"
+}
