@@ -1,1 +1,1 @@
-web: gunicorn fplassist.wsgi --log-file -
+web: gunicorn elysia.wsgi --log-file -
