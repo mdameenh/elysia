@@ -8,4 +8,4 @@ Created on Mon Oct  2 22:42:37 2017
 from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse("There is nothing here. Try /fplassist")
+    return HttpResponse("There is nothing here. Try /fplassist or /pathfinder")
