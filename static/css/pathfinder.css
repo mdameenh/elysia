@@ -14,8 +14,8 @@
 .modal {
         display:none;
         z-index: 1;
-        width: 400px;
-        height: 100px;
+        width: 500px;
+        height: 120px;
         position: absolute;
         top:0;
         bottom: 50%;
