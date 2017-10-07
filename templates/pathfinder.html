@@ -6,41 +6,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet"> 
 	<link rel="stylesheet" type="text/css" href="../static/css/pathfinder.css">
 	
-	 <script type="text/javascript">
-    	 function generate_table(){
-        	 var x = parseInt(document.getElementById('value_x').value);
-        	 var y = parseInt(document.getElementById('value_y').value);
-        	 
-        	 if(x==0||y==0){
-        	 window.alert("Enter values greater than 0!!");
-        	 location.reload(); 
-        	 }
-	     	 var modal = document.getElementById('entryModal')
-        	 modal.style.display = 'none';
-
-	     	 var main = document.getElementById('main-container')
-        	 main.style.display = 'block';
-        	 
-        	 var table = document.getElementById('draw_table');
-        	 for(var i=0; i<x; i++){
-            	 var row = table.insertRow(i);
-            	 for(var j=0; j<y; j++){
-                	 row.insertCell(j).innerHTML = ""
-            	 }
-        	 }
-    	 }
-    	 
-    	 function dummy(){
-    	 var modal = document.getElementById('entryModal')
-    	 modal.style.display = 'block';
-    	 }
-    	 	
-    	if (window.addEventListener)
-    		window.addEventListener("load", dummy, false);
-    	else if (window.attachEvent)
-    		window.attachEvent("onload", dummy);
-    	else window.onload = dummy;
-    </script>
+    <script src="../static/scripts/pfloader.js"></script>
 </head>
 
 <body>
@@ -59,7 +25,9 @@
         <div style="text-align:center; margin-bottom:2%">Enter the matrix</div>
         <div>
             <div style="text-align:center; margin-bottom:2%">
-                <input id="value_x" type="text" name="x_axis" value="0" style="text-align: center;"> x <input type="text"  id="value_y" name="y_axis" value="0" style="text-align: center;"><br>
+                <input id="value_x" type="number" name="x_axis" value="20" min="1" max="99" style="text-align: center;" onchange="check_input();">
+                 x 
+                <input type="number"  id="value_y" name="y_axis" value="30" min="1" max="99" style="text-align: center;" onchange="check_input();"><br>
             </div>
             <div style="text-align:center; margin-bottom:2%">
                 <button onclick="generate_table()" id="get_axes">Begin</button>
