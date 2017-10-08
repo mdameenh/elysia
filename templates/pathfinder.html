@@ -7,6 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="../static/css/pathfinder.css">
 	
     <script src="../static/scripts/pfloader.js"></script>
+    <script src="../static/scripts/djikstra.js"></script>
+    
 </head>
 
 <body>
@@ -14,6 +16,7 @@
 	<div id = "header-container" style="overflow:auto; background-color: #38003c  ;">
     	<div id="header" class="header">Path Finder</div>
     </div>
+    <button onclick="pathfinder_djikstra()" id="btn_djikstra">Djikstra</button>
     <div id="gap-container" style="height:20px; background-color: #FFFFFF;"></div>
     <div style="height:750px" id="table-container">
         <table border=0 id="draw_table"></table>
@@ -25,9 +28,9 @@
         <div style="text-align:center; margin-bottom:2%">Enter the matrix</div>
         <div>
             <div style="text-align:center; margin-bottom:2%">
-                <input id="value_x" type="number" name="x_axis" value="20" min="1" max="99" style="text-align: center;" onchange="check_input();">
+                <input id="value_x" type="number" name="x_axis" value="20" min="1" max="99" style="text-align: center;"">
                  x 
-                <input type="number"  id="value_y" name="y_axis" value="30" min="1" max="99" style="text-align: center;" onchange="check_input();"><br>
+                <input type="number"  id="value_y" name="y_axis" value="30" min="1" max="99" style="text-align: center;""><br>
             </div>
             <div style="text-align:center; margin-bottom:2%">
                 <button onclick="generate_table()" id="get_axes">Begin</button>
@@ -35,5 +38,4 @@
         </div>
     </div>    
 </div>
-
 </body></html>

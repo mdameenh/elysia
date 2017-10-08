@@ -4,9 +4,13 @@ var y = 0;
 var start_point = '000000';
 var end_point = '000000';
 var blocks = [];
-    	 
+
+function getCellString(t_x, t_y){
+    return ("000" + t_x).slice(-3) + ("000" + t_y).slice(-3);
+    }
+ 
 function cell_select(e){
-	var cell = ("000" + e.currentTarget.parentNode.rowIndex).slice(-3) + ("000" + e.currentTarget.cellIndex).slice(-3);
+	var cell = getCellString(e.currentTarget.parentNode.rowIndex, e.currentTarget.cellIndex)
 	//window.alert(blocks)
 	if(e.ctrlKey){
      	if(cell==end_point){
@@ -70,15 +74,21 @@ function generate_table(){
     	 }
 	 }
 	 start_point = "000000";
-	 end_point = ("000" + (x-1)).slice(-3) + ("000" + (y-1)).slice(-3);
+	 end_point = getCellString(x-1, y-1);
+	 
 	 document.getElementById("draw_table").rows[0].cells[0].style.backgroundColor = "#F06251";
 	 document.getElementById("draw_table").rows[x-1].cells[y-1].style.backgroundColor = "#92F051";
 	 
 	 }
     	 
-	 function check_input() {
+function check_input() {
     	 x = parseInt(document.getElementById('value_x').value);
     	 y = parseInt(document.getElementById('value_y').value);
+    	 
+    	 if(isNaN(x) || isNaN(y)){
+        	 window.alert("Enter a value within  0-100");
+        	 return false;
+    	 }
     	 
     	 if(x < 1 || x > 99){
         	 window.alert("Enter a value within  0-100");
@@ -91,7 +101,7 @@ function generate_table(){
         else{
             return true;
             }
-    };
+    }
 
     	 
 function showOnLoad(){
