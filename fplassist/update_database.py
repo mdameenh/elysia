@@ -7,7 +7,6 @@ Created on Mon Oct  2 23:12:28 2017
 
 # -*- coding: utf-8 -*-
 import requests, json, os
-import sqlite3
 from collections import OrderedDict
 
 player_ceiling_values = {}
@@ -122,19 +121,50 @@ def update_database():
                                                                  json.loads(fixture_file.read()))
                 if not get_fixture_diff_status:
                     return False
-    print("Creating internal database with player attributes...")                                                             
-    print("Connecting to internal database")
-    conn = sqlite3.connect("db.sqlite3")
-    cursor = conn.cursor()
+    print("Creating database with player attributes...")                                                             
+    print("Connecting to database")
+    
+    from urllib import parse
+    import psycopg2
+    
+    parse.uses_netloc.append("postgres")
+    url = parse.urlparse(os.environ["DATABASE_URL"])
+    
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+    
+    cur = conn.cursor()
+
 
     print("Calculating player attributes...")
-    cursor.execute("DROP TABLE IF EXISTS players")
-    cursor.execute("""CREATE TABLE players
-    (id, name, cost, cost_n, difficulty, points, points_n, form, form_n,
-    threat, threat_n, fixtures, tx_in, tx_in_n, tx_out, tx_out_n, bonus, 
-    bonus_n, availability, clean_sheets, clean_sheets_n, penalties_saved, penalties_saved_n, cards, 
-    selectedby, selectedby_n, minutes, saves, minutes_n, saves_n, player_type)
-    """)
+    cur.execute("DROP TABLE IF EXISTS players")
+    cur.execute('''CREATE TABLE players (id integer, name varchar(25), cost decimal, cost_n decimal, difficulty decimal, 
+                                         points decimal, points_n decimal, form decimal, form_n decimal, threat decimal, 
+                                         threat_n decimal, fixtures varchar(45), tx_in decimal, tx_in_n decimal, 
+                                         tx_out decimal, tx_out_n decimal, bonus decimal, bonus_n decimal, 
+                                         availability decimal, clean_sheets decimal, 
+                                         clean_sheets_n decimal, penalties_saved decimal, 
+                                         penalties_saved_n decimal, cards decimal, selectedby decimal, 
+                                         selectedby_n decimal, minutes decimal, saves decimal, 
+                                         minutes_n decimal, saves_n decimal, player_type varchar(12));''')
+    
+#    cur.execute("""CREATE TABLE players
+#    (%s, %s, %s, %s, %s, %s, %s, %s, %s,
+#    %s, %s, %s, %s, %s, %s, %s, %s, 
+#    %s, %s, %s, %s, %s, %s, %s, 
+#    %s, %s, %s, %s, %s, %s, %s);
+#    """, ("id", "name", "cost", "cost_n", "difficulty", "points", "points_n", 
+#    "form", "form_n", "threat", "threat_n", "fixtures", "tx_in", "tx_in_n", 
+#    "tx_out", "tx_out_n", "bonus", "bonus_n", "availability", "clean_sheets", 
+#    "clean_sheets_n", "penalties_saved", "penalties_saved_n", "cards", 
+#    "selectedby", "selectedby_n", "minutes", "saves", "minutes_n", "saves_n", 
+#    "player_type"))
+    
     player_data = []
     with open('static/data/elements.json') as players_file:
         player_data = json.loads(players_file.read())
@@ -181,9 +211,12 @@ def update_database():
                  player["minutes"]/player_ceiling_values["minutes"],
                  player["saves"]/player_ceiling_values["saves"],
                  player_position)
-    
-    
-        cursor.execute("INSERT INTO players VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", entry)
+     
+     
+        cur.execute("INSERT INTO players (id, name, cost, cost_n, difficulty, points,points_n,form,form_n,threat,threat_n, \
+                                          fixtures,tx_in,tx_in_n,tx_out,tx_out_n,bonus,bonus_n,availability,clean_sheets,  \
+                                          clean_sheets_n,penalties_saved,penalties_saved_n,cards,selectedby,selectedby_n,\
+                                          minutes,saves,minutes_n,saves_n,player_type) VALUES %s", (entry,))
     
     conn.commit()
     print("Database ready!\n")
