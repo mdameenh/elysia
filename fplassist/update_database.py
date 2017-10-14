@@ -91,7 +91,7 @@ def update_database():
                                                          squad_number integer)""")
 
     cur.execute("""CREATE TABLE IF NOT EXISTS PLAYER_BASE_STATS (id integer, points integer,
-                                                         minutes integer, cost integer, tsb decimal,
+                                                         minutes integer, cost decimal, tsb decimal,
                                                          ppg decimal, goals integer, assists integer,
                                                          cleansheet integer, saves integer, bps integer,
                                                          t_in integer, t_out integer, form decimal)""")
