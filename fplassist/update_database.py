@@ -98,6 +98,7 @@ def update_database():
     
     players = get_data("https://fantasy.premierleague.com/drf/elements")
     for player in players:
+        player_cost = "%.1f" % player["now_cost"]/10.0
         position_long = [pos for pos in player_types if pos["id"] == player["element_type"]][0]["singular_name"]
         position_short = [pos for pos in player_types if pos["id"] == player["element_type"]][0]["singular_name_short"]
         availability = None
@@ -125,7 +126,7 @@ def update_database():
         cur.execute("""UPDATE PLAYER_BASE_STATS SET points=%s, minutes=%s, cost=%s, tsb=%s,
                     ppg=%s, goals=%s, assists=%s, cleansheet=%s, saves=%s, bps=%s,
                     t_in=%s, t_out=%s, form=%s WHERE id=%s;""", (player["total_points"], 
-                    player["minutes"], float(player["now_cost"]/10.0), player["selected_by_percent"], 
+                    player["minutes"], player_cost, player["selected_by_percent"], 
                     player["points_per_game"], player["goals_scored"], player["assists"], 
                     player["clean_sheets"], player["saves"], player["bps"], 
                     player["transfers_in_event"], player["transfers_out_event"], player["form"], player["id"]))
@@ -134,7 +135,7 @@ def update_database():
                                                 ppg, goals, assists, cleansheet, saves, bps, t_in, t_out, form)
                     SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                     WHERE NOT EXISTS (SELECT 1 FROM PLAYER_BASE_STATS WHERE id=%s)""", (player["id"], player["total_points"], 
-                    player["minutes"], float(player["now_cost"]/10.0), player["selected_by_percent"], 
+                    player["minutes"], player_cost, player["selected_by_percent"], 
                     player["points_per_game"], player["goals_scored"], player["assists"], 
                     player["clean_sheets"], player["saves"], player["bps"], 
                     player["transfers_in_event"], player["transfers_out_event"], player["form"], player["id"]))
