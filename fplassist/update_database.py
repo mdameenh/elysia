@@ -98,7 +98,7 @@ def update_database():
     
     players = get_data("https://fantasy.premierleague.com/drf/elements")
     for player in players:
-        player_cost = "%.1f" % player["now_cost"]/10.0
+        player_cost = "%.1f" % (int(player["now_cost"])/10.0)
         position_long = [pos for pos in player_types if pos["id"] == player["element_type"]][0]["singular_name"]
         position_short = [pos for pos in player_types if pos["id"] == player["element_type"]][0]["singular_name_short"]
         availability = None
