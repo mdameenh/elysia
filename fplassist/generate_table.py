@@ -4,6 +4,13 @@ Created on Tue Oct  3 00:32:54 2017
 
 @author: Ameen
 """
+'''
+PLAYER INFO         : id, name, position_short, position_long, team, availability, news, squad_number
+PLAYER_BASE_STATS   : id, points, minutes, cost, tsb, ppg, goals, assists, cleansheet, saves, bps, t_in, t_out, form 
+PLAYER_DEEP_STATS   :
+TEAM_INFO           : id, name, short_name, next_fixture, difficulty
+'''
+
 import os
 from urllib import parse
 import psycopg2
@@ -27,15 +34,27 @@ def generate_table():
         print(e)
 
     cur = conn.cursor()
-    cur.execute("SELECT * FROM players")
-    player_list = []
-    rows = cur.fetchall()
-    rows = sorted(rows, key=lambda x : x[5], reverse=True)
     
-    for _ in range(50):
-        i = rows[_]
-        player_list.append([i[0], i[1], i[2]/10, i[30], i[5],
-        i[7], i[11], i[12], i[14], i[9], i[16], i[18],
-        i[19], i[23], i[24], i[26], i[27]])
-
-    return player_list
+    cur.execute("SELECT * FROM player_info")
+    player_list = []
+    player_info = cur.fetchall()
+    
+    cur.execute("SELECT * FROM player_base_stats")
+    player_base_stats = cur.fetchall()
+    
+    cur.execute("SELECT * FROM team_info")
+    team_info = cur.fetchall()
+    
+    for player in player_info:
+        stat = [_stat for _stat in player_base_stats if _stat[0] == player[0]][0]
+        team = [_team for _team in team_info if _team[0] == player[4]][0]
+        
+        player_list.append([player[1], stat[3], player[2], stat[1], 
+                            stat[13], team[3], stat[11], stat[12], stat[10], 
+                            player[5], stat[8], stat[9], stat[4], stat[2]])
+    
+        #name, cost, position, points, form, fixture, t_in, t_out, bps, availability, cleansheet, saves, tsb, minutes    
+    
+    player_list = sorted(player_list, key=lambda x : x[3], reverse=True)
+    
+    return player_list[:50]
