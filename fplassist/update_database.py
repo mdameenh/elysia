@@ -118,7 +118,7 @@ def update_database():
         cur.execute("""INSERT INTO PLAYER_INFO (id, name, position_short, position_long, team,
                                                 availability, news, squad_number)
                     SELECT %s, %s, %s, %s, %s, %s, %s, %s
-                    WHERE NOT EXISTS (SELECT 1 FROM TEAM_INFO WHERE id=%s)""", (player["id"], 
+                    WHERE NOT EXISTS (SELECT 1 FROM PLAYER_INFO WHERE id=%s)""", (player["id"], 
                     player["web_name"], position_short, position_long, player["team"], 
                     availability, news, player["squad_number"], player["id"]))
     
@@ -133,7 +133,7 @@ def update_database():
         cur.execute("""INSERT INTO PLAYER_BASE_STATS (id, points, minutes, cost, tsb,
                                                 ppg, goals, assists, cleansheet, saves, bps, t_in, t_out, form)
                     SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
-                    WHERE NOT EXISTS (SELECT 1 FROM TEAM_INFO WHERE id=%s)""", (player["id"], player["total_points"], 
+                    WHERE NOT EXISTS (SELECT 1 FROM PLAYER_BASE_STATS WHERE id=%s)""", (player["id"], player["total_points"], 
                     player["minutes"], player["now_cost"]/10, player["selected_by_percent"], 
                     player["points_per_game"], player["goals_scored"], player["assists"], 
                     player["clean_sheets"], player["saves"], player["bps"], 
