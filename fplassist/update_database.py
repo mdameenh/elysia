@@ -134,7 +134,7 @@ def update_database():
                                                 ppg, goals, assists, cleansheet, saves, bps, t_in, t_out, form)
                     SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                     WHERE NOT EXISTS (SELECT 1 FROM PLAYER_BASE_STATS WHERE id=%s)""", (player["id"], player["total_points"], 
-                    player["minutes"], player["now_cost"]/10, player["selected_by_percent"], 
+                    player["minutes"], player["now_cost"]/10.0, player["selected_by_percent"], 
                     player["points_per_game"], player["goals_scored"], player["assists"], 
                     player["clean_sheets"], player["saves"], player["bps"], 
                     player["transfers_in_event"], player["transfers_out_event"], player["form"], player["id"]))
