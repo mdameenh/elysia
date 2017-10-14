@@ -144,5 +144,4 @@ def update_database():
     
     conn.commit()
     cur.close()
-
-update_database()
+    return True
