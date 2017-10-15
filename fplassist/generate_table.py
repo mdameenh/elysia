@@ -16,8 +16,6 @@ from urllib import parse
 import psycopg2
 
 def generate_table():
-    database = "db.sqlite3"
-    print(database)
     conn = None
     try:        
         parse.uses_netloc.append("postgres")
@@ -49,12 +47,17 @@ def generate_table():
         stat = [_stat for _stat in player_base_stats if _stat[0] == player[0]][0]
         team = [_team for _team in team_info if _team[0] == player[4]][0]
         
-        player_list.append([player[1], stat[3], player[2], stat[1], 
-                            stat[13], team[3], stat[11], stat[12], stat[10], 
+        player_list.append([player[1], team[2], stat[3], player[2], stat[1], 
+                            stat[13], stat[11], stat[12], stat[10], 
                             player[5], stat[8], stat[9], stat[4], stat[2]])
     
         #name, cost, position, points, form, fixture, t_in, t_out, bps, availability, cleansheet, saves, tsb, minutes    
     
-    player_list = sorted(player_list, key=lambda x : x[3], reverse=True)
-    
+    player_list = sorted(player_list, key=lambda x : x[4], reverse=True)
+    cur.close()
     return player_list[:50]
+
+def update_table(data):
+    print(data)
+    return data.getlist('checks[]')
+    

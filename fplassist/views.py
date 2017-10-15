@@ -10,7 +10,6 @@ from fplassist import generate_table
 from django.http import JsonResponse
 from fplassist import update_database
 
-
 def fplassist(request):
     return render(request, 'fplassist.html')
 
@@ -24,5 +23,7 @@ def updatedb(request):
 def genTable(request):
     return JsonResponse(generate_table.generate_table(), safe=False)
 
-def updateTable(request):
-    return HttpResponse(request.GET.get('cost', ''))
+def update_table(request):
+    if request.method == 'POST':
+        t_resp = generate_table.update_table(request.POST)
+        return JsonResponse(t_resp, safe=False)

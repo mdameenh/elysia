@@ -5,8 +5,25 @@
 	<link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet"> 
 	<link rel="stylesheet" type="text/css" href="../static/css/fplassist.css">
-	
-	 <script type="text/javascript">
+	<script src="../static/scripts/jquery.min.js"></script>
+	<script src="../static/scripts/jquery.form.js"></script> 
+	<script type="text/javascript">
+		function expand_filter(filtername){
+             if(document.getElementById(filtername).style.display == "block"){
+                 document.getElementById(filtername).style.display = "none";
+             }
+             else if(document.getElementById(filtername).style.display == "none"){
+                 document.getElementById(filtername).style.display = "block";
+             }
+         }
+		 
+		 function logoover(){
+			document.getElementById('logo').setAttribute("src", "../static/images/index_1.png");
+		 }
+		 function logoleave(){
+			document.getElementById('logo').setAttribute("src", "../static/images/index.png");
+		 }
+		 
     	 function updateTable(){
         	 var updateTable_request = new XMLHttpRequest();
         	 var params = "cost="+document.getElementById('cost_slider').value.toString()+"&fixture_difficulty="+document.getElementById('fixture_diff_slider').value.toString();
@@ -23,8 +40,52 @@
         	 updateTable_request.send(null);
         	     
     	 }
+
+        $(document).ready(function() {
+            $('#updateForm').on('submit', function (e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    type: 'POST',
+                    url: 'update_table/',
+                    data: $("#updateForm").serialize(),
+                    success: function (json) {
+                        alert(json);
+                    }
+                }); 
+                return false;               
+            });
+        });
     	 
         function getTableOnload() {
+            teams = ['ars', 'bou', 'bha', 'bur', 'che', 'cry', 'eve', 'hud', 'lei', 'liv', 'mci', 'man', 'new', 'sou', 'sto', 'swa', 'tot', 'wat', 'wba', 'whu']
+            teamCheckBox = document.getElementById("team_check");
+            var d_div = document.createElement('div');
+            d_div.id="team_div";
+            d_div.style.display = "none";
+            d_div.style.marginLeft = "10px";
+            
+            for(var team=0; team<teams.length; team++){
+                var checkbox =document.createElement('input');
+                checkbox.type = "checkbox";
+                checkbox.name = "checks[]";
+                checkbox.value = teams[team];
+                checkbox.style.marginLeft = "15px";
+                checkbox.style.marginRight = "2px";
+                checkbox.style.verticalAlign = "middle";
+                checkbox.checked = true;
+                
+                var labelTxt = document.createElement('label');
+                labelTxt.innerHTML = teams[team];
+                labelTxt.style.fontSize = "13px";
+                labelTxt.style.verticalAlign = "middle";
+                d_div.appendChild(checkbox);
+                d_div.appendChild(labelTxt);
+                d_div.appendChild(document.createElement('br'));
+            }
+            
+            teamCheckBox.appendChild(d_div);
+                   
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'genTable', false);
             xhr.onload = function(e) {
@@ -39,7 +100,6 @@
                         row.insertCell(cell_count).innerHTML = player[cell_count]
                     }
                 }
-                document.getElementById('status').innerHTML = "Connection Successful";
                 }
             xhr.send();
         	}
@@ -54,150 +114,115 @@
 
 <body>
 <div class="myheader">
-	<div style="width:100%; overflow:auto; background-color: #00ff87;">
-		<div style="float:left;">
-			<img src="../static/images/index.png" width="187px" height="132px">
-		</div>
-		<div style="float:right">
-			<p class="header_text">FPL Assist</p>
-			<p class="quote_text">Cos there's two times of year for me: Football season, and waiting for football season.</p>
-		</div>
-	</div>
 	<div style="width:100%; overflow:auto; background-color: #38003c;">
-    	<div id="status" class="status_text">Loading</div>
+    	<div id="header" class="header_text">FPL Assist</div>
     </div>
 	
-	<div style="width:90%; position:absolute; height:auto; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 6px 0 rgba(0,0,0,0.12); overflow:auto">
+	<div style="width:100%; position:absolute; height:auto; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 6px 0 rgba(0,0,0,0.12); ">
 		<div style="float:left; width:15%; position:absolute; height:100%; background-color: #E4E6E5;">
-			<br><br>
-			<div style="margin-left:10px; font-size: 16px;">
-				Adjust your search criteria:
-				<div style="margin-left:10px; margin-top:20px; margin-bottom:20px; font-size: 12px;">
-					<div>
-						<div style="margin-top:20px;">Position</div>
-						<div style="margin-top:10px;">
-							 <select>
-							  <option value="ALL">All</option>
-							  <option value="GKP">Goal Keeper</option>
-							  <option value="DEF">Defender</option>
-							  <option value="MID">Midfielder</option>
-							  <option value="FWD">Forward</option>
-							</select> 
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Cost</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="cost_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Fixture Difficulty</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="fixture_diff_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Points</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="points_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Form</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="form_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Transfer In</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="transfer_in_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Transfer Out</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="transfer_out_slider" type="range">
-						</div>
-					</div>					
-					<div>
-						<div style="margin-top:20px;">Threat</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="threat_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Bonus</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="bonus_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Availability</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="avail_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Clean Sheet</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="cs_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Yellow/Red Cards</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="myRange" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Selected By</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="sel_by_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Minutes</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="minutes_slider" type="range">
-						</div>
-					</div>
-					<div>
-						<div style="margin-top:20px;">Saves</div>
-						<div style="margin-top:10px;">
-							<input min="0" max="100" value="0" class="slider" id="saves_slider" type="range">
-						</div>
-					</div>
-					<div>
-    					<div style="margin-top:10px;">
-        					<input type="button" id="updatetable" onclick="updateTable()" value="Update Table">
-    					</div>
-    				</div>
-				</div>
+			<br>
+			<div>
+			   <p style="margin-left:10px; font-size: 16px;">Adjust your search criteria: </p>
 			</div>
-			
+			<br>
+			<form id="updateForm">
+    			{% csrf_token %}
+            <div style="border-bottom: 1px solid #A9A9A9;">
+                <p onclick="expand_filter('player_info');" style="margin:10px; font-size: 14px; font-weight:bold;">+ Player Info</p>
+                <div id="player_info" style="display:none; margin-left: 10px;">
+                    <div style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('pos_div');" id="pos_check" style="margin:15px 10px 5px 15px; font-size: 14px;">Position<br></div>
+            				<div id="pos_div" style="display:none; margin-left:10px;">
+                				<input type="checkbox" name="checks[]" value="gkp" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
+                				<label style="vertical-align: middle; font-size:13px">GKP</label>
+                				<input type="checkbox" name="checks[]" value="def" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
+                				<label style="vertical-align: middle; font-size:13px">DEF</label>
+                				<input type="checkbox" name="checks[]" value="mid" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
+                				<label style="vertical-align: middle; font-size:13px">MID</label>
+                				<input type="checkbox" name="checks[]" value="fwd" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
+                				<label style="vertical-align: middle; font-size:13px">FWD</label>
+            				</div>
+        				</div>
+        				<div id="team_check" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('team_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Team<br></div>
+        				</div>
+                    <div style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('avail_div');" id="avail_check" style="margin:15px 10px 5px 15px; font-size: 14px;">Availability<br></div>
+            				<div id="avail_div" style="display:none; margin-left:10px;">
+                				<input type="checkbox" name="checks[]" value="avail_a" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
+                				<label style="vertical-align: middle; font-size:13px">Available</label><br>
+                				<input type="checkbox" name="checks[]" value="avail_d" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
+                				<label style="vertical-align: middle; font-size:13px">Doubtful</label><br>
+                				<input type="checkbox" name="checks[]" value="avail_i" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;">
+                				<label style="vertical-align: middle; font-size:13px">Injured</label><br>
+                				<input type="checkbox" name="checks[]" value="avail_n" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;">
+                				<label style="vertical-align: middle; font-size:13px">Not Available</label><br>
+            				</div>
+        				</div>
+                    <div>
+            				<div onclick="expand_filter('diff_div');" id="diff_check" style="margin:15px 10px 5px 15px; font-size: 14px;">Difficulty<br></div>
+            				<div id="diff_div" style="display:none; margin-left:10px;">
+                				<input type="checkbox" name="checks[]" value="diff_veryeasy" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
+                				<label style="vertical-align: middle; font-size:13px">Very Easy</label><br>
+                				<input type="checkbox" name="checks[]" value="diff_easy" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
+                				<label style="vertical-align: middle; font-size:13px">Easy</label><br>
+                				<input type="checkbox" name="checks[]" value="diff_hard" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;">
+                				<label style="vertical-align: middle; font-size:13px">Difficult</label><br>
+                				<input type="checkbox" name="checks[]" value="diff_veryhard" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;">
+                				<label style="vertical-align: middle; font-size:13px">Very Difficult</label><br>
+            				</div>
+        				</div>
+                </div>
+            </div>
+    
+    			<div style="border-bottom: 1px solid #A9A9A9;">
+    				<p onclick="expand_filter('player_base')" style="margin:10px; font-size: 14px; font-weight:bold;">+ Player Base Stats</p>
+        			<div id="player_base" style="display:none; margin-left: 10px;">
+        				<div style="margin:15px; font-size: 14px;">Cost</div>
+        			</div>
+    			</div>
+    
+    			<div style="border-bottom: 1px solid #A9A9A9;">
+    				<p onclick="expand_filter('player_deep')" style="margin:10px; font-size: 14px; font-weight:bold;">+ Player Deep Stats</p>
+        			<div id="player_deep" style="display:none; margin-left: 10px;">
+        				<div style="margin:15px; font-size: 14px;">Key Passes</div>
+        			</div>
+    			</div>
+    			<div style="border-bottom: 1px solid #A9A9A9;">
+    				<p onclick="expand_filter('filter_col')" style="margin:10px; font-size: 14px; font-weight:bold;">+ Filter Columns</p>
+        			<div id="filter_col" style="display:none; margin-left: 10px;">
+        				<div style="margin:15px; font-size: 14px;">Points</div>
+        			</div>
+    			</div>
+    			<div style="border-bottom: 1px solid #A9A9A9;">
+    				<p onclick="expand_filter('search')" style="margin:10px; font-size: 14px; font-weight:bold;">+ Search</p>
+        			<div id="search" style="display:none; margin-left: 10px;">
+        				<div style="margin:15px; font-size: 14px;">Search Player</div>
+        			</div>
+    			</div>
+                <input class="update_btn" type="submit" value="Update">
+    		</form>
 		</div>
 		<div style="float:right; width:85%">
-			<br><br>
+			<br>
 			<div style="margin-left:18px; font-size: 16px;">Player List</div>
 			<div style="overflow:auto">
 				<table id="player_table">
-					<tbody><tr style="background-color: #a5a5a5;">
-						<td>Name</td>
-						<td>Cost</td>
-						<td>Position</td>
-						<td>Points</td>
-						<td>Form</td>
-						<td>Fixtures</td>
-						<td>Transfer In</td>
-						<td>Transfer out</td>
-						<td>Bonus</td>
-						<td>Availability</td>
-						<td>CleanSheet</td>
-						<td>Saves</td>
-						<td>Selected By</td>
-						<td>Minutes</td>
+					<tbody><tr style="background-color: #38003C;">
+						<td style="color: #FFFFFF;">Name</td>
+						<td style="color: #FFFFFF;">Team</td>
+						<td style="color: #FFFFFF;">Cost</td>
+						<td style="color: #FFFFFF;">Position</td>
+						<td style="color: #FFFFFF;">Points</td>
+						<td style="color: #FFFFFF;">Form</td>
+						<td style="color: #FFFFFF;">Transfer In</td>
+						<td style="color: #FFFFFF;">Transfer out</td>
+						<td style="color: #FFFFFF;">Bonus</td>
+						<td style="color: #FFFFFF;">Availability</td>
+						<td style="color: #FFFFFF;">CleanSheet</td>
+						<td style="color: #FFFFFF;">Saves</td>
+						<td style="color: #FFFFFF;">Selected By</td>
+						<td style="color: #FFFFFF;">Minutes</td>
 					</tr>
 					<tr><th>&nbsp;</th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 				</tbody></table>
@@ -207,5 +232,5 @@
 	</div>
 </div>
 
-
-</body></html>
+</body>
+</html>
