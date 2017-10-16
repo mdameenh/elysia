@@ -63,6 +63,9 @@ def update_table(data):
     filter_team = data.getlist('team[]')
     filter_avail = data.getlist('availability[]')
     filter_diff = data.getlist('difficulty[]')
+    
+    print(data.get('points_min'))
+    
     conn = None
     
     try:        
@@ -93,15 +96,43 @@ def update_table(data):
     for player in player_info:
         stat = [_stat for _stat in player_base_stats if _stat[0] == player[0]][0]
         team = [_team for _team in team_info if _team[0] == player[4]][0]
-
+        #PLAYER_BASE_STATS   : id0, points1, minutes2, cost3, tsb4, ppg5, goals6, assists7, cleansheet8, saves9, bps10, t_in11, t_out12, form13 
         if team[1] not in filter_team:
             continue
         elif player[3] not in filter_pos:
             continue
         elif avail_template[player[5]] not in filter_avail:
             continue
+        elif stat[1] < int(data.get('points_min')) or stat[1] > int(data.get('points_max')):
+            continue
+        elif stat[2] < int(data.get('minutes_min')) or stat[2] > int(data.get('minutes_max')):
+            continue
+        elif stat[3] < float(data.get('price_min')) or stat[3] > float(data.get('price_max')):
+            continue
+        elif stat[4] < float(data.get('tsb_min')) or stat[4] > float(data.get('tsb_max')):
+            continue
+        elif stat[5] < float(data.get('ppg_min')) or stat[5] > float(data.get('ppg_max')):
+            continue
+        elif stat[6] < int(data.get('goals_min')) or stat[6] > int(data.get('goals_max')):
+            continue
+        elif stat[7] < int(data.get('assists_min')) or stat[7] > int(data.get('assists_max')):
+            continue
+        elif stat[8] < int(data.get('csheet_min')) or stat[8] > int(data.get('csheet_max')):
+            continue
+        elif stat[9] < int(data.get('saves_min')) or stat[9] > int(data.get('saves_max')):
+            continue
+        elif stat[10] < int(data.get('bps_min')) or stat[10] > int(data.get('bps_max')):
+            continue
+        elif stat[11] < int(data.get('txin_min')) or stat[11] > int(data.get('txin_max')):
+            continue
+        elif stat[12] < int(data.get('txout_min')) or stat[12] > int(data.get('txout_max')):
+            continue
+        elif stat[13] < float(data.get('form_min')) or stat[13] > float(data.get('form_max')):
+            continue
         
-        print(player[1])
+        print(stat[3])
+        print(float(data.get('price_min')))
+        print(float(data.get('price_max')))        
         player_list.append([player[1], team[2], stat[3], player[2], stat[1], 
                             stat[13], stat[11], stat[12], stat[10], 
                             avail_template[player[5]], stat[8], stat[9], stat[4], stat[2]])
