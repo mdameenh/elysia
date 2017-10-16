@@ -25,8 +25,20 @@
                     type: 'POST',
                     url: 'update_table/',
                     data: $("#updateForm").serialize(),
-                    success: function (json) {
-                        alert(json["Teams"]);
+                    success: function (player_data) {
+                        var player_table = document.getElementById('player_table');
+                        var rowCount = player_table.rows.length;
+                        for (var i = rowCount - 1; i > 0; i--) {
+                            player_table.deleteRow(i);
+                        }
+                        rowCount = (player_data.length > 50)? 50 : player_data.length;
+                        for(var count=0; count<rowCount; count++){
+                            player = player_data[count];
+                            var row = player_table.insertRow(count+1);
+                            for(cell_count=0; cell_count<player.length; cell_count++){
+                                row.insertCell(cell_count).innerHTML = player[cell_count]
+                            }
+                        }
                     }
                 }); 
                 return false;               
@@ -64,11 +76,11 @@
         function getTableOnload() {
             teams = ['Arsenal', 'Bournemouth', 'Brighton', 'Burnley',
                      'Chelsea', 'Crystal Palace', 'Everton', 'Huddersfield', 
-                     'Leicester City', 'Liverpool', 'Man. City', 'Man. United',
-                     'Newcastle Utd', 'Southampton', 'Stoke City', 'Swansea', 
-                     'Totthenham', 'Watford', 'West Brom', 'WestHam United'];
-            positions = ['Goal-Keeper', 'Defender', 'Midfielder', 'Forward'];
-            avail = ['Match-Fit', 'Doubtful', 'Injured', 'Not-Available'];
+                     'Leicester', 'Liverpool', 'Man City', 'Man Utd',
+                     'Newcastle', 'Southampton', 'Stoke', 'Swansea', 
+                     'Spurs', 'Watford', 'West Brom', 'West Ham'];
+            positions = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'];
+            avail = ['Available', 'Doubtful', 'Injured', 'Unavailable'];
             difficulty = ['Very Easy', 'Easy', 'Hard', 'Very Hard'];
             
             genInfoFilters('position_checkbx', positions, 'pos_div', 'position[]');
@@ -81,9 +93,9 @@
             xhr.onload = function(e) {
                 player_data = JSON.parse(this.response);
                 var player_table = document.getElementById('player_table');
-                var table_len = player_table.rows.length - 1;
                 
-                for(count=0; count<player_data.length; count++){
+                rowCount = (player_data.length > 50)? 50 : player_data.length;
+                for(var count=0; count<rowCount; count++){
                     player = player_data[count];
                     var row = player_table.insertRow(count+1);
                     for(cell_count=0; cell_count<player.length; cell_count++){
@@ -108,8 +120,8 @@
     	<div id="header" class="header_text">FPL Assist</div>
     </div>
 	
-	<div style="width:100%; position:absolute; height:auto; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 6px 0 rgba(0,0,0,0.12); ">
-		<div style="float:left; width:15%; position:absolute; height:100%; background-color: #E4E6E5;">
+	<div style="width:100%; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 6px 0 rgba(0,0,0,0.12); ">
+		<div style="float:left; width:15%; height:auto; background-color: #E4E6E5;">
 			<br>
 			<div>
 			   <p style="margin-left:10px; font-size: 16px;">Adjust your search criteria: </p>
@@ -163,26 +175,25 @@
                 <input class="update_btn" type="submit" value="Update">
     		</form>
 		</div>
-		<div style="float:right; width:85%">
+		<div style="float:right; width:85%; height:auto ">
 			<div style="overflow:auto">
 				<table id="player_table">
 					<tbody><tr style="background-color: #38003C;">
-						<td style="color: #FFFFFF;">Name</td>
-						<td style="color: #FFFFFF;">Team</td>
-						<td style="color: #FFFFFF;">Cost</td>
-						<td style="color: #FFFFFF;">Position</td>
-						<td style="color: #FFFFFF;">Points</td>
-						<td style="color: #FFFFFF;">Form</td>
-						<td style="color: #FFFFFF;">Transfer In</td>
-						<td style="color: #FFFFFF;">Transfer out</td>
-						<td style="color: #FFFFFF;">Bonus</td>
-						<td style="color: #FFFFFF;">Availability</td>
-						<td style="color: #FFFFFF;">CleanSheet</td>
-						<td style="color: #FFFFFF;">Saves</td>
-						<td style="color: #FFFFFF;">Selected By</td>
-						<td style="color: #FFFFFF;">Minutes</td>
+						<th style="color: #FFFFFF;">Name</th>
+						<th style="color: #FFFFFF;">Team</th>
+						<th style="color: #FFFFFF;">Cost</th>
+						<th style="color: #FFFFFF;">Position</th>
+						<th style="color: #FFFFFF;">Points</th>
+						<th style="color: #FFFFFF;">Form</th>
+						<th style="color: #FFFFFF;">Transfer In</th>
+						<th style="color: #FFFFFF;">Transfer out</th>
+						<th style="color: #FFFFFF;">Bonus</th>
+						<th style="color: #FFFFFF;">Availability</th>
+						<th style="color: #FFFFFF;">CleanSheet</th>
+						<th style="color: #FFFFFF;">Saves</th>
+						<th style="color: #FFFFFF;">Selected By</th>
+						<th style="color: #FFFFFF;">Minutes</th>
 					</tr>
-					<tr><th>&nbsp;</th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 				</tbody></table>
 			</div>
 		</div>
