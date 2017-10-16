@@ -16,30 +16,6 @@
                  document.getElementById(filtername).style.display = "block";
              }
          }
-		 
-		 function logoover(){
-			document.getElementById('logo').setAttribute("src", "../static/images/index_1.png");
-		 }
-		 function logoleave(){
-			document.getElementById('logo').setAttribute("src", "../static/images/index.png");
-		 }
-		 
-    	 function updateTable(){
-        	 var updateTable_request = new XMLHttpRequest();
-        	 var params = "cost="+document.getElementById('cost_slider').value.toString()+"&fixture_difficulty="+document.getElementById('fixture_diff_slider').value.toString();
-        	 var parameters = {
-                "cost": document.getElementById('cost_slider').value.toString(),
-                "fixture_difficulty": document.getElementById('fixture_diff_slider').value.toString()
-            };
-            
-        	 updateTable_request.onload = function(){ 
-            	 window.alert(this.response);
-            	 }        	 
-        	 window.alert(JSON.stringify(parameters));
-        	 updateTable_request.open("GET", "updateTable?"+params, true);
-        	 updateTable_request.send(null);
-        	     
-    	 }
 
         $(document).ready(function() {
             $('#updateForm').on('submit', function (e) {
@@ -50,42 +26,56 @@
                     url: 'update_table/',
                     data: $("#updateForm").serialize(),
                     success: function (json) {
-                        alert(json);
+                        alert(json["Teams"]);
                     }
                 }); 
                 return false;               
             });
         });
     	 
-        function getTableOnload() {
-            teams = ['ars', 'bou', 'bha', 'bur', 'che', 'cry', 'eve', 'hud', 'lei', 'liv', 'mci', 'man', 'new', 'sou', 'sto', 'swa', 'tot', 'wat', 'wba', 'whu']
-            teamCheckBox = document.getElementById("team_check");
-            var d_div = document.createElement('div');
-            d_div.id="team_div";
-            d_div.style.display = "none";
-            d_div.style.marginLeft = "10px";
-            
-            for(var team=0; team<teams.length; team++){
-                var checkbox =document.createElement('input');
-                checkbox.type = "checkbox";
-                checkbox.name = "checks[]";
-                checkbox.value = teams[team];
-                checkbox.style.marginLeft = "15px";
-                checkbox.style.marginRight = "2px";
-                checkbox.style.verticalAlign = "middle";
-                checkbox.checked = true;
+    	 function genInfoFilters(str_checkbx, items, str_div, str_name){
+        	 checkbx = document.getElementById(str_checkbx);
+        	 var d_div = document.createElement('div');
+        	 d_div.id = str_div;
+        	 d_div.style.display = "none";
+        	 d_div.style.marginLeft = "10px";
+        	 
+        	 for(var i=0; i<items.length; i++){
+                var _checkbx = document.createElement('input');
+                _checkbx.type = "checkbox";
+                _checkbx.name = str_name;
+                _checkbx.value = items[i];
+                _checkbx.style.marginLeft = "15px";
+                _checkbx.style.marginRight = "5px";
+                _checkbx.checked = true;
                 
                 var labelTxt = document.createElement('label');
-                labelTxt.innerHTML = teams[team];
+                labelTxt.innerHTML = items[i];
                 labelTxt.style.fontSize = "13px";
                 labelTxt.style.verticalAlign = "middle";
-                d_div.appendChild(checkbox);
+                d_div.appendChild(_checkbx);
                 d_div.appendChild(labelTxt);
                 d_div.appendChild(document.createElement('br'));
-            }
+        	 }
+        	 
+        	 checkbx.appendChild(d_div);
+    	 }
+    	 
+        function getTableOnload() {
+            teams = ['Arsenal', 'Bournemouth', 'Brighton', 'Burnley',
+                     'Chelsea', 'Crystal Palace', 'Everton', 'Huddersfield', 
+                     'Leicester City', 'Liverpool', 'Man. City', 'Man. United',
+                     'Newcastle Utd', 'Southampton', 'Stoke City', 'Swansea', 
+                     'Totthenham', 'Watford', 'West Brom', 'WestHam United'];
+            positions = ['Goal-Keeper', 'Defender', 'Midfielder', 'Forward'];
+            avail = ['Match-Fit', 'Doubtful', 'Injured', 'Not-Available'];
+            difficulty = ['Very Easy', 'Easy', 'Hard', 'Very Hard'];
             
-            teamCheckBox.appendChild(d_div);
-                   
+            genInfoFilters('position_checkbx', positions, 'pos_div', 'position[]');
+            genInfoFilters('team_checkbx', teams, 'team_div', 'team[]');
+            genInfoFilters('avail_checkbx', avail, 'avail_div', 'availability[]');
+            genInfoFilters('diff_checkbx', difficulty, 'diff_div', 'difficulty[]');
+
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'genTable', false);
             xhr.onload = function(e) {
@@ -130,47 +120,17 @@
             <div style="border-bottom: 1px solid #A9A9A9;">
                 <p onclick="expand_filter('player_info');" style="margin:10px; font-size: 14px; font-weight:bold;">+ Player Info</p>
                 <div id="player_info" style="display:none; margin-left: 10px;">
-                    <div style="border-bottom: 1px solid #A9A9A9;">
-            				<div onclick="expand_filter('pos_div');" id="pos_check" style="margin:15px 10px 5px 15px; font-size: 14px;">Position<br></div>
-            				<div id="pos_div" style="display:none; margin-left:10px;">
-                				<input type="checkbox" name="checks[]" value="gkp" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
-                				<label style="vertical-align: middle; font-size:13px">GKP</label>
-                				<input type="checkbox" name="checks[]" value="def" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
-                				<label style="vertical-align: middle; font-size:13px">DEF</label>
-                				<input type="checkbox" name="checks[]" value="mid" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
-                				<label style="vertical-align: middle; font-size:13px">MID</label>
-                				<input type="checkbox" name="checks[]" value="fwd" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
-                				<label style="vertical-align: middle; font-size:13px">FWD</label>
-            				</div>
+                    <div id="position_checkbx" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('pos_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Position<br></div>
         				</div>
-        				<div id="team_check" style="border-bottom: 1px solid #A9A9A9;">
+        				<div id="team_checkbx" style="border-bottom: 1px solid #A9A9A9;">
             				<div onclick="expand_filter('team_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Team<br></div>
         				</div>
-                    <div style="border-bottom: 1px solid #A9A9A9;">
-            				<div onclick="expand_filter('avail_div');" id="avail_check" style="margin:15px 10px 5px 15px; font-size: 14px;">Availability<br></div>
-            				<div id="avail_div" style="display:none; margin-left:10px;">
-                				<input type="checkbox" name="checks[]" value="avail_a" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
-                				<label style="vertical-align: middle; font-size:13px">Available</label><br>
-                				<input type="checkbox" name="checks[]" value="avail_d" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
-                				<label style="vertical-align: middle; font-size:13px">Doubtful</label><br>
-                				<input type="checkbox" name="checks[]" value="avail_i" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;">
-                				<label style="vertical-align: middle; font-size:13px">Injured</label><br>
-                				<input type="checkbox" name="checks[]" value="avail_n" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;">
-                				<label style="vertical-align: middle; font-size:13px">Not Available</label><br>
-            				</div>
+                    <div id="avail_checkbx" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('avail_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Availability<br></div>
         				</div>
-                    <div>
-            				<div onclick="expand_filter('diff_div');" id="diff_check" style="margin:15px 10px 5px 15px; font-size: 14px;">Difficulty<br></div>
-            				<div id="diff_div" style="display:none; margin-left:10px;">
-                				<input type="checkbox" name="checks[]" value="diff_veryeasy" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
-                				<label style="vertical-align: middle; font-size:13px">Very Easy</label><br>
-                				<input type="checkbox" name="checks[]" value="diff_easy" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;" checked>
-                				<label style="vertical-align: middle; font-size:13px">Easy</label><br>
-                				<input type="checkbox" name="checks[]" value="diff_hard" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;">
-                				<label style="vertical-align: middle; font-size:13px">Difficult</label><br>
-                				<input type="checkbox" name="checks[]" value="diff_veryhard" style="margin-left: 15px;vertical-align: middle;margin-right: 2px;">
-                				<label style="vertical-align: middle; font-size:13px">Very Difficult</label><br>
-            				</div>
+                    <div id="diff_checkbx">
+            				<div onclick="expand_filter('diff_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Difficulty<br></div>
         				</div>
                 </div>
             </div>
@@ -204,8 +164,6 @@
     		</form>
 		</div>
 		<div style="float:right; width:85%">
-			<br>
-			<div style="margin-left:18px; font-size: 16px;">Player List</div>
 			<div style="overflow:auto">
 				<table id="player_table">
 					<tbody><tr style="background-color: #38003C;">

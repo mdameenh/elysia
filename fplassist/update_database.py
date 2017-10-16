@@ -87,7 +87,7 @@ def update_database():
 
     cur.execute("""CREATE TABLE IF NOT EXISTS PLAYER_INFO (id integer, name varchar(25),
                                                          position_short varchar(4), position_long varchar(10), team integer,
-                                                         availability decimal, news varchar(100),
+                                                         availability varchar(2), news varchar(100),
                                                          squad_number integer)""")
 
     cur.execute("""CREATE TABLE IF NOT EXISTS PLAYER_BASE_STATS (id integer, points integer,
@@ -101,11 +101,7 @@ def update_database():
         player_cost = "%.1f" % (int(player["now_cost"])/10.0)
         position_long = [pos for pos in player_types if pos["id"] == player["element_type"]][0]["singular_name"]
         position_short = [pos for pos in player_types if pos["id"] == player["element_type"]][0]["singular_name_short"]
-        availability = None
-        if player["chance_of_playing_this_round"] == None:
-            availability = 0
-        else:
-            availability = player["chance_of_playing_this_round"]
+
         if not player["news"]:
             news = "Match Fit!"
         else:
@@ -113,7 +109,7 @@ def update_database():
 
         cur.execute("""UPDATE PLAYER_INFO SET name=%s, position_short=%s, position_long=%s, team=%s,
                     availability=%s, news=%s, squad_number=%s WHERE id=%s;""", (player["web_name"], 
-                    position_short, position_long, player["team"], availability, news, 
+                    position_short, position_long, player["team"], player["status"], news, 
                     player["squad_number"], player["id"]))
 
         cur.execute("""INSERT INTO PLAYER_INFO (id, name, position_short, position_long, team,
@@ -121,7 +117,7 @@ def update_database():
                     SELECT %s, %s, %s, %s, %s, %s, %s, %s
                     WHERE NOT EXISTS (SELECT 1 FROM PLAYER_INFO WHERE id=%s)""", (player["id"], 
                     player["web_name"], position_short, position_long, player["team"], 
-                    availability, news, player["squad_number"], player["id"]))
+                    player["status"], news, player["squad_number"], player["id"]))
     
         cur.execute("""UPDATE PLAYER_BASE_STATS SET points=%s, minutes=%s, cost=%s, tsb=%s,
                     ppg=%s, goals=%s, assists=%s, cleansheet=%s, saves=%s, bps=%s,

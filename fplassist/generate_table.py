@@ -42,14 +42,14 @@ def generate_table():
     
     cur.execute("SELECT * FROM team_info")
     team_info = cur.fetchall()
-    
+    avail_template = {'a': 'Available', 'i': 'Injured', 'd': 'Doubtful', 'u': 'Unavailable', 's': 'Suspended', 'n': 'Unavailable',}
     for player in player_info:
         stat = [_stat for _stat in player_base_stats if _stat[0] == player[0]][0]
         team = [_team for _team in team_info if _team[0] == player[4]][0]
         
         player_list.append([player[1], team[2], stat[3], player[2], stat[1], 
                             stat[13], stat[11], stat[12], stat[10], 
-                            player[5], stat[8], stat[9], stat[4], stat[2]])
+                            avail_template[player[5]], stat[8], stat[9], stat[4], stat[2]])
     
         #name, cost, position, points, form, fixture, t_in, t_out, bps, availability, cleansheet, saves, tsb, minutes    
     
@@ -58,6 +58,10 @@ def generate_table():
     return player_list[:50]
 
 def update_table(data):
-    print(data)
-    return data.getlist('checks[]')
+    myresponse = {'Positions': data.getlist('position[]'),
+                  'Teams': data.getlist('team[]'),
+                  'Availability': data.getlist('availability[]'),
+                  'Difficulty': data.getlist('difficulty[]')}
+    print(myresponse)
+    return myresponse
     
