@@ -46,7 +46,7 @@
         });
     	 
     	 function genInfoFilters(str_checkbx, items, str_div, str_name){
-        	 checkbx = document.getElementById(str_checkbx);
+        	 var checkbx = document.getElementById(str_checkbx);
         	 var d_div = document.createElement('div');
         	 d_div.id = str_div;
         	 d_div.style.display = "none";
@@ -73,6 +73,45 @@
         	 checkbx.appendChild(d_div);
     	 }
     	 
+        function genBaseStatFilters(base_stat){
+            /*base_stat_name, val_min, val_max, step*/
+            var stat_input = document.getElementById(base_stat[0]+"_input");
+            var d_div = document.createElement('div');
+            d_div.id = base_stat[0]+"_div";
+            d_div.style.display = "none";
+            d_div.style.marginLeft = "10px";
+            d_div.style.marginBottom = "5px";
+            
+            var stat_input_max = document.createElement("input");
+            stat_input_max.type = "number";
+            stat_input_max.name = base_stat[0] + "_max";
+            stat_input_max.value = base_stat[2];
+            stat_input_max.min = base_stat[1];
+            stat_input_max.max = base_stat[2];
+            stat_input_max.step = base_stat[3];
+            stat_input_max.style.marginLeft = "15px";
+            stat_input_max.style.marginRight = "15px";
+            stat_input_max.style.textAlign = "right";
+            stat_input_max.style.width = "70px";
+            
+            var stat_input_min = document.createElement("input");
+            stat_input_min.type = "number";
+            stat_input_min.name = base_stat[0] + "_min";
+            stat_input_min.value = base_stat[1];
+            stat_input_min.min = base_stat[1];
+            stat_input_min.max = base_stat[2];
+            stat_input_min.step = base_stat[3];
+            stat_input_min.style.marginLeft = "15px";
+            stat_input_min.style.marginRight = "15px";
+            stat_input_min.style.textAlign = "right";
+            stat_input_min.style.width = "70px";
+            
+            d_div.appendChild(stat_input_min);
+            d_div.appendChild(stat_input_max);
+            
+            stat_input.appendChild(d_div);
+    	 }
+    	 
         function getTableOnload() {
             teams = ['Arsenal', 'Bournemouth', 'Brighton', 'Burnley',
                      'Chelsea', 'Crystal Palace', 'Everton', 'Huddersfield', 
@@ -82,11 +121,31 @@
             positions = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward'];
             avail = ['Available', 'Doubtful', 'Injured', 'Unavailable'];
             difficulty = ['Very Easy', 'Easy', 'Hard', 'Very Hard'];
-            
+
+           /*input, div, val_max, val_min, range_min, range_max, step*/
+            base_stats = [['points', '0', '600', '1'],
+                          ['minutes', '0', '3600', '1'],
+                          ['price', '0', '15', '0.1'],
+                          ['tsb', '0', '100', '0.1'],
+                          ['ppg', '0', '30', '0.1'],
+                          ['goals', '0', '38', '1'],
+                          ['assists', '0', '38', '1'],
+                          ['csheet', '0', '38', '1'],
+                          ['saves', '0', '200', '1'],
+                          ['txin', '0', '6000000', '1'],
+                          ['txout', '0', '6000000', '1'],
+                          ['bps', '0', '1500', '1'],
+                          ['form', '0', '20', '0.1']
+                        ]
+                           
             genInfoFilters('position_checkbx', positions, 'pos_div', 'position[]');
             genInfoFilters('team_checkbx', teams, 'team_div', 'team[]');
             genInfoFilters('avail_checkbx', avail, 'avail_div', 'availability[]');
             genInfoFilters('diff_checkbx', difficulty, 'diff_div', 'difficulty[]');
+            
+            for(var i = 0; i<base_stats.length; i++){
+                genBaseStatFilters(base_stats[i]);
+            }
 
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'genTable', false);
@@ -150,7 +209,45 @@
     			<div style="border-bottom: 1px solid #A9A9A9;">
     				<p onclick="expand_filter('player_base')" style="margin:10px; font-size: 14px; font-weight:bold;">+ Player Base Stats</p>
         			<div id="player_base" style="display:none; margin-left: 10px;">
-        				<div style="margin:15px; font-size: 14px;">Cost</div>
+                    <div id="points_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('points_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Points<br></div>
+        				</div>
+                    <div id="minutes_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('minutes_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Minutes<br></div>
+        				</div>
+                    <div id="price_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('price_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Price<br></div>
+        				</div>
+                    <div id="tsb_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('tsb_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Total Selected By<br></div>
+        				</div>
+                    <div id="ppg_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('ppg_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Points Per Game<br></div>
+        				</div>
+                    <div id="goals_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('goals_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Goals<br></div>
+        				</div>
+                    <div id="assists_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('assists_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Assists<br></div>
+        				</div>
+                    <div id="csheet_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('csheet_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Clean Sheet<br></div>
+        				</div>
+                    <div id="saves_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('saves_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Saves<br></div>
+        				</div>
+                    <div id="txin_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('txin_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Transfer-In<br></div>
+        				</div>
+                    <div id="txout_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('txout_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Transfer-Out<br></div>
+        				</div>
+                    <div id="bps_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('bps_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Bonus Point System<br></div>
+        				</div>
+                    <div id="form_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('form_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Form<br></div>
+        				</div>
         			</div>
     			</div>
     
