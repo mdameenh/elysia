@@ -169,7 +169,7 @@ def update_database():
                     int(player_deep_cumul["winning_goals"]), int(player_deep_cumul["attempted_passes"]), int(player_deep_cumul["completed_passes"]), 
                     int(player_deep_cumul["penalties_conceded"]), int(player_deep_cumul["big_chances_missed"]), int(player_deep_cumul["tackled"]), 
                     int(player_deep_cumul["offside"]), int(player_deep_cumul["target_missed"]), int(player_deep_cumul["fouls"]), 
-                    int(player_deep_cumul["dribbles"]), player_deep_cumul["id"]))
+                    int(player_deep_cumul["dribbles"]), player["id"]))
 
         cur.execute("""INSERT INTO PLAYER_DEEP_STATS (id, influence, creativity, threat, ict_index,
                                                 open_play_crosses, big_chances_created, clearances_blocks_interceptions, recoveries, 
