@@ -125,8 +125,6 @@ def update_database():
         player_deep = get_data("https://fantasy.premierleague.com/drf/element-summary/%d" % (player["id"]))["history"]
         for deep_stat in player_deep:
             for deep_attr in player_deep_cumul:
-                print(deep_attr)
-                print(deep_stat[deep_attr])
                 player_deep_cumul[deep_attr] +=  float(deep_stat[deep_attr])
 
         cur.execute("""UPDATE PLAYER_INFO SET name=%s, position_short=%s, position_long=%s, team=%s,
