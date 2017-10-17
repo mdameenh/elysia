@@ -95,6 +95,15 @@ def update_database():
                                                          ppg decimal, goals integer, assists integer,
                                                          cleansheet integer, saves integer, bps integer,
                                                          t_in integer, t_out integer, form decimal)""")
+
+    cur.execute("""CREATE TABLE IF NOT EXISTS PLAYER_DEEP_STATS (id integer, influence decimal,
+                                                         creativity decimal, threat decimal, ict decimal,
+                                                         crosses integer, big_chance_created integer, clearance integer,
+                                                         recoveries integer, key_passes integer, tackles integer,
+                                                         win_goals integer, attempted_pass integer, completed_pass integer,
+                                                         penalties_conceded integer, chance_missed integer, tackled integer,
+                                                         offside integer, target_missed integer, fouls integer, 
+                                                         dribbles integer)""")
     
     players = get_data("https://fantasy.premierleague.com/drf/elements")
     for player in players:
@@ -106,6 +115,9 @@ def update_database():
             news = "Match Fit!"
         else:
             news = player["news"]
+            
+        player_deep = get_data("https://fantasy.premierleague.com/drf/element-summary/%d" % (player["id"]))["history"]
+        
 
         cur.execute("""UPDATE PLAYER_INFO SET name=%s, position_short=%s, position_long=%s, team=%s,
                     availability=%s, news=%s, squad_number=%s WHERE id=%s;""", (player["web_name"], 
@@ -135,8 +147,35 @@ def update_database():
                     player["points_per_game"], player["goals_scored"], player["assists"], 
                     player["clean_sheets"], player["saves"], player["bps"], 
                     player["transfers_in_event"], player["transfers_out_event"], player["form"], player["id"]))
+        
+        cur.execute("""UPDATE PLAYER_DEEP_STATS SET influence=%s, creativity=%s, threat=%s, ict=%s,
+                    crosses=%s, big_chance_created=%s, clearance=%s, recoveries=%s, key_passes=%s, tackles=%s,
+                    win_goals=%s, attempted_pass=%s, completed_pass=%s, penalties_conceded=%s,
+                    chance_missed=%s, tackled=%s, offside=%s, target_missed=%s,
+                    fouls=%s, dribbles=%s WHERE id=%s;""", (player_deep["influence"], 
+                    player_deep["creativity"], player_deep["threat"], player_deep["ict_index"], 
+                    player_deep["open_play_crosses"], player_deep["big_chances_created"], player_deep["clearances_blocks_interceptions"], 
+                    player_deep["recoveries"], player_deep["key_passes"], player_deep["tackles"], 
+                    player_deep["winning_goals"], player_deep["attempted_passes"], player_deep["completed_passes"], 
+                    player_deep["penalties_conceded"], player_deep["big_chances_missed"], player_deep["tackled"], 
+                    player_deep["offside"], player_deep["target_missed"], player_deep["fouls"], 
+                    player_deep["dribbles"], player_deep["id"]))
 
-    
+        cur.execute("""INSERT INTO PLAYER_DEEP_STATS (id, influence, creativity, threat, ict,
+                                                crosses, big_chance_created, clearance, recoveries, 
+                                                key_passes, tackles, win_goals, attempted_pass, completed_pass,
+                                                penalties_conceded, chance_missed, tackled, offside, 
+                                                target_missed, fouls, dribbles)
+                    SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    WHERE NOT EXISTS (SELECT 1 FROM PLAYER_BASE_STATS WHERE id=%s)""", (player_deep["id"], player_deep["influence"], 
+                    player_deep["creativity"], player_deep["threat"], player_deep["ict_index"], 
+                    player_deep["open_play_crosses"], player_deep["big_chances_created"], 
+                    player_deep["clearances_blocks_interceptions"], player_deep["recoveries"], 
+                    player_deep["key_passes"], player_deep["tackles"], player_deep["winning_goals"], 
+                    player_deep["attempted_passes"], player_deep["completed_passes"], 
+                    player_deep["penalties_conceded"], player_deep["big_chances_missed"], 
+                    player_deep["tackled"], player_deep["offside"], player_deep["target_missed"], 
+                    player_deep["fouls"], player_deep["dribbles"], player_deep["id"]))
     
     
     conn.commit()
