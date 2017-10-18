@@ -73,7 +73,7 @@
         	 checkbx.appendChild(d_div);
     	 }
     	 
-        function genBaseStatFilters(base_stat){
+        function genStatFilters(base_stat){
             /*base_stat_name, val_min, val_max, step*/
             var stat_input = document.getElementById(base_stat[0]+"_input");
             var d_div = document.createElement('div');
@@ -137,6 +137,17 @@
                           ['bps', '0', '1500', '1'],
                           ['form', '0', '20', '0.1']
                         ]
+                        
+            deep_stats = [['ict_index', '0', '2000', '0.1'], ['open_play_crosses', '0', '200', '1'],
+                          ['big_chances_created', '0', '200', '1'], ['clearances_blocks_interceptions', '0', '200', '1'],
+                          ['recoveries', '0', '200', '1'], ['key_passes', '0', '200', '1'],
+                          ['tackles', '0', '200', '1'], ['winning_goals', '0', '38', '1'],
+                          ['attempted_passes', '0', '10000', '1'], ['completed_passes', '0', '10000', '1'],
+                          ['penalties_conceded', '0', '38', '1'], ['big_chances_missed', '0', '100', '1'],
+                          ['tackled', '0', '100', '1'], ['offside', '0', '100', '1'],
+                          ['target_missed', '0', '100', '1'], ['fouls', '0', '100', '1'],
+                          ['dribbles', '0', '100', '1']
+                        ]
                            
             genInfoFilters('position_checkbx', positions, 'pos_div', 'position[]');
             genInfoFilters('team_checkbx', teams, 'team_div', 'team[]');
@@ -144,8 +155,12 @@
             genInfoFilters('diff_checkbx', difficulty, 'diff_div', 'difficulty[]');
             
             for(var i = 0; i<base_stats.length; i++){
-                genBaseStatFilters(base_stats[i]);
+                genStatFilters(base_stats[i]);
             }
+            
+            for(var i = 0; i<deep_stats.length; i++){
+                genStatFilters(deep_stats[i]);
+            }            
 
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'genTable', false);
@@ -254,9 +269,60 @@
     			<div style="border-bottom: 1px solid #A9A9A9;">
     				<p onclick="expand_filter('player_deep')" style="margin:10px; font-size: 14px; font-weight:bold;">+ Player Deep Stats</p>
         			<div id="player_deep" style="display:none; margin-left: 10px;">
-        				<div style="margin:15px; font-size: 14px;">Key Passes</div>
+                    <div id="ict_index_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('ict_index_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">ICT Index<br></div>
+        				</div>
+                    <div id="open_play_crosses_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('open_play_crosses_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Crosses<br></div>
+        				</div>
+    				    <div id="big_chances_created_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('big_chances_created_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Chances Created<br></div>
+        				</div>
+        				<div id="big_chances_missed_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('big_chances_missed_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Chances Missed<br></div>
+        				</div>
+        				<div id="target_missed_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('target_missed_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Target Missed<br></div>
+        				</div>        				
+        				<div id="clearances_blocks_interceptions_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('clearances_blocks_interceptions_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Clearance/Interceptions<br></div>
+        				</div>
+        				<div id="recoveries_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('recoveries_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Recoveries<br></div>
+        				</div>
+        				<div id="tackles_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('tackles_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Tackles<br></div>
+        				</div>
+        				<div id="tackled_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('tackled_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Tackled<br></div>
+        				</div>
+        				<div id="key_passes_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('key_passes_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Key Passes<br></div>
+        				</div>
+        				<div id="winning_goals_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('winning_goals_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Winning Goals<br></div>
+        				</div>
+        				<div id="attempted_passes_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('attempted_passes_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Attempted Passes<br></div>
+        				</div>
+        				<div id="completed_passes_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('completed_passes_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Completed Passes[%]<br></div>
+        				</div>
+        				<div id="penalties_conceded_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('penalties_conceded_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Penalty Conceded<br></div>
+        				</div>
+        				<div id="offside_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('offside_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Offsides<br></div>
+        				</div>
+        				<div id="fouls_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('fouls_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Fouls<br></div>
+        				</div>
+        				<div id="dribbles_input" style="border-bottom: 1px solid #A9A9A9;">
+            				<div onclick="expand_filter('dribbles_div');" style="margin:15px 10px 5px 15px; font-size: 14px;">Dribbles<br></div>
+        				</div>  				
         			</div>
     			</div>
+    			
     			<div style="border-bottom: 1px solid #A9A9A9;">
     				<p onclick="expand_filter('filter_col')" style="margin:10px; font-size: 14px; font-weight:bold;">+ Filter Columns</p>
         			<div id="filter_col" style="display:none; margin-left: 10px;">

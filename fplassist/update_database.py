@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import requests, os
+import requests, os, json
 
 from urllib import parse
 import psycopg2
@@ -19,12 +19,19 @@ def get_data(api_url):
     else:
         return False
     
-
+def setBgActive(bgKey):
+    with open('bgActive.json', 'w') as f:
+        data = {'bg_active': bgKey}
+        json.dump(data,f)
+    
 def update_database():
     print("\n############----------> FPL Helper Script <----------############\n")
     print("Initiating script...\n")
 
     print("Connecting to database...")
+    
+    setBgActive(1)
+    
     parse.uses_netloc.append("postgres")
     url = parse.urlparse(os.environ["DATABASE_URL"])
     
@@ -176,7 +183,7 @@ def update_database():
                                                 penalties_conceded, big_chances_missed, tackled, offside, 
                                                 target_missed, fouls, dribbles)
                     SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
-                    WHERE NOT EXISTS (SELECT 1 FROM PLAYER_BASE_STATS WHERE id=%s)""", (player["id"], player_deep_cumul["influence"], 
+                    WHERE NOT EXISTS (SELECT 1 FROM PLAYER_DEEP_STATS WHERE id=%s)""", (player["id"], player_deep_cumul["influence"], 
                     player_deep_cumul["creativity"], player_deep_cumul["threat"], player_deep_cumul["ict_index"], 
                     int(player_deep_cumul["open_play_crosses"]), int(player_deep_cumul["big_chances_created"]), 
                     int(player_deep_cumul["clearances_blocks_interceptions"]), int(player_deep_cumul["recoveries"]), 
@@ -189,4 +196,5 @@ def update_database():
     
     conn.commit()
     cur.close()
-    return True
+    setBgActive(0)
+    return
