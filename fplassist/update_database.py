@@ -87,7 +87,7 @@ def update_database():
         player_info = Player_Info(player_id=player["id"], player_name=player["web_name"],
                                   pos_short=position_short, pos_long=position_long,
                                   team_id=player["team"], availability=player["status"],
-                                  news=p_news, squad_number=player["squad_number"])
+                                  news=p_news)
         player_info.save()
         
         player_base_stats = Player_Basic_Stats(player_id=player["id"], points=player["total_points"],

@@ -18,7 +18,6 @@ class Player_Info(models.Model):
     team_id = models.IntegerField(default=0)
     availability = models.CharField(max_length=2)
     news = models.CharField(max_length=100)
-    squad_number = models.IntegerField(default=99)
     
     def __str__(self):
         return self.player_name
