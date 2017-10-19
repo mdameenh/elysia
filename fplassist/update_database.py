@@ -48,10 +48,13 @@ def update_database():
                     difficulty += (fixture["team_h_difficulty"] - fixture["team_a_difficulty"])
                 elif fixture["team_a"] == team["id"]:
                     difficulty += (fixture["team_a_difficulty"] - fixture["team_h_difficulty"])
-        
-        team_entry = Team_Info(team_id=team["id"], team_name=team["name"], 
-                               short_name=team["short_name"], 
-                               fixture_difficulty=difficulty/5.0)
+        try:
+            team_entry = Team_Info.object.get(team_id=team["id"])
+            team_entry.fixture_difficulty =  difficulty/5.0
+        except Team_Info.DoesNotExist:
+            team_entry = Team_Info(team_id=team["id"], team_name=team["name"], 
+                                   short_name=team["short_name"], 
+                                   fixture_difficulty=difficulty/5.0)
         team_entry.save()
     
     print("Team and Fixture Difficulty information stored successfully!")
@@ -83,41 +86,80 @@ def update_database():
         for deep_stat in player_deep:
             for deep_attr in player_deep_cumul:
                 player_deep_cumul[deep_attr] +=  float(deep_stat[deep_attr])
-        
-        player_info = Player_Info(player_id=player["id"], player_name=player["web_name"],
-                                  pos_short=position_short, pos_long=position_long,
-                                  team_id=player["team"], availability=player["status"],
-                                  news=p_news)
+        try:
+            player_info = Player_Info.objects.get(player_id=player["id"])
+            player_info.team_id, player_info.availability, player_info.news = player["team"], player["status"], p_news
+        except Player_Info.DoesNotExist:
+            player_info = Player_Info(player_id=player["id"], player_name=player["web_name"],
+                                      pos_short=position_short, pos_long=position_long,
+                                      team_id=player["team"], availability=player["status"],
+                                      news=p_news)
         player_info.save()
-        
-        player_base_stats = Player_Basic_Stats(player_id=player["id"], points=player["total_points"],
-                                               minutes=player["minutes"], cost=player_cost, 
-                                               tsb=player["selected_by_percent"], 
-                                               ppg=player["points_per_game"], goals=player["goals_scored"],
-                                               assists=player["assists"], cleansheet=player["clean_sheets"],
-                                               saves=player["saves"], bps=player["bps"],
-                                               transfer_in=player["transfers_in_event"],
-                                               transfer_out=player["transfers_out_event"],
-                                               form=player["form"])
+        try:
+            player_base_stats = Player_Basic_Stats.objects.get(player_id=player["id"])
+            player_base_stats.points = player["total_points"]
+            player_base_stats.minutes = player["minutes"]
+            player_base_stats.cost = player_cost
+            player_base_stats.tsb = player["selected_by_percent"]
+            player_base_stats.ppg = player["points_per_game"]
+            player_base_stats.goals = player["goals_scored"]
+            player_base_stats.assists = player["assists"]
+            player_base_stats.cleansheet = player["clean_sheets"]
+            player_base_stats.saves = player["saves"]
+            player_base_stats.bps = player["bps"]
+            player_base_stats.transfer_in = player["transfers_in_event"]
+            player_base_stats.transfer_out = player["transfers_out_event"]
+            player_base_stats.form = player["form"]
+
+        except Player_Basic_Stats.DoesNotExist:
+            player_base_stats = Player_Basic_Stats(player_id=player["id"], points=player["total_points"],
+                                                   minutes=player["minutes"], cost=player_cost, 
+                                                   tsb=player["selected_by_percent"], 
+                                                   ppg=player["points_per_game"], goals=player["goals_scored"],
+                                                   assists=player["assists"], cleansheet=player["clean_sheets"],
+                                                   saves=player["saves"], bps=player["bps"],
+                                                   transfer_in=player["transfers_in_event"],
+                                                   transfer_out=player["transfers_out_event"],
+                                                   form=player["form"])
         player_base_stats.save()
-        
-        player_detailed = Player_Detailed_Stats(player_id=player["id"], ict_index=player_deep_cumul["ict_index"],
-                                                open_play_crosses=player_deep_cumul["open_play_crosses"],
-                                                big_chances_created=player_deep_cumul["big_chances_created"],
-                                                clearances_blocks_interceptions=player_deep_cumul["clearances_blocks_interceptions"],
-                                                recoveries=player_deep_cumul["recoveries"],
-                                                key_passes=player_deep_cumul["key_passes"],
-                                                tackles=player_deep_cumul["tackles"],
-                                                winning_goals=player_deep_cumul["winning_goals"],
-                                                attempted_passes=player_deep_cumul["attempted_passes"],
-                                                completed_passes=player_deep_cumul["completed_passes"],
-                                                penalties_conceded=player_deep_cumul["penalties_conceded"],
-                                                big_chances_missed=player_deep_cumul["big_chances_missed"],
-                                                tackled=player_deep_cumul["tackled"],
-                                                offside=player_deep_cumul["offside"],
-                                                target_missed=player_deep_cumul["target_missed"],
-                                                fouls=player_deep_cumul["fouls"],
-                                                dribbles=player_deep_cumul["dribbles"])
+        try:
+            player_detailed = Player_Detailed_Stats.objects.get(player_id=player["id"])
+            player_detailed.ict_index = player_deep_cumul["ict_index"]
+            player_detailed.open_play_crosses = player_deep_cumul["open_play_crosses"]
+            player_detailed.big_chances_created = player_deep_cumul["big_chances_created"]
+            player_detailed.clearances_blocks_interceptions = player_deep_cumul["clearances_blocks_interceptions"]
+            player_detailed.recoveries = player_deep_cumul["recoveries"]
+            player_detailed.key_passes = player_deep_cumul["key_passes"]
+            player_detailed.tackles = player_deep_cumul["tackles"]
+            player_detailed.winning_goals = player_deep_cumul["winning_goals"]
+            player_detailed.attempted_passes = player_deep_cumul["attempted_passes"]
+            player_detailed.completed_passes = player_deep_cumul["completed_passes"]
+            player_detailed.penalties_conceded = player_deep_cumul["penalties_conceded"]
+            player_detailed.big_chances_missed = player_deep_cumul["big_chances_missed"]
+            player_detailed.tackled = player_deep_cumul["tackled"]
+            player_detailed.offside = player_deep_cumul["offside"]
+            player_detailed.target_missed = player_deep_cumul["target_missed"]
+            player_detailed.fouls = player_deep_cumul["fouls"]
+            player_detailed.dribbles = player_deep_cumul["dribbles"]
+            
+        except Player_Detailed_Stats.DoesNotExist:
+            player_detailed = Player_Detailed_Stats(player_id=player["id"], ict_index=player_deep_cumul["ict_index"],
+                                                    open_play_crosses=player_deep_cumul["open_play_crosses"],
+                                                    big_chances_created=player_deep_cumul["big_chances_created"],
+                                                    clearances_blocks_interceptions=player_deep_cumul["clearances_blocks_interceptions"],
+                                                    recoveries=player_deep_cumul["recoveries"],
+                                                    key_passes=player_deep_cumul["key_passes"],
+                                                    tackles=player_deep_cumul["tackles"],
+                                                    winning_goals=player_deep_cumul["winning_goals"],
+                                                    attempted_passes=player_deep_cumul["attempted_passes"],
+                                                    completed_passes=player_deep_cumul["completed_passes"],
+                                                    penalties_conceded=player_deep_cumul["penalties_conceded"],
+                                                    big_chances_missed=player_deep_cumul["big_chances_missed"],
+                                                    tackled=player_deep_cumul["tackled"],
+                                                    offside=player_deep_cumul["offside"],
+                                                    target_missed=player_deep_cumul["target_missed"],
+                                                    fouls=player_deep_cumul["fouls"],
+                                                    dribbles=player_deep_cumul["dribbles"])
         player_detailed.save()
 
     p = FPL_Config.objects.get(id=1)
