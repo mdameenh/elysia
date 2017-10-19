@@ -49,7 +49,7 @@ def update_database():
                 elif fixture["team_a"] == team["id"]:
                     difficulty += (fixture["team_a_difficulty"] - fixture["team_h_difficulty"])
         try:
-            team_entry = Team_Info.object.get(team_id=team["id"])
+            team_entry = Team_Info.objects.get(team_id=team["id"])
             team_entry.fixture_difficulty =  difficulty/5.0
         except Team_Info.DoesNotExist:
             team_entry = Team_Info(team_id=team["id"], team_name=team["name"], 
