@@ -120,7 +120,7 @@ def update_database():
                                                 dribbles=player_deep_cumul["dribbles"])
         player_detailed.save()
 
-    p = FPL_Config.objects.filter(id=1)
+    p = FPL_Config.objects.get(id=1)
     p.bg_active = False
     p.last_updated = datetime.now()
     p.save()

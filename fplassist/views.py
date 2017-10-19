@@ -37,7 +37,7 @@ def gentable(request):
         return JsonResponse(generate_table(), safe=False)
 
 def updatetable(request):
-    p = FPL_Config.objects.filter(id=1)
+    p = FPL_Config.objects.get(id=1)
 
     if p.bg_active == True:
         return HttpResponse("Database is updating in the background...")
