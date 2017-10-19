@@ -17,7 +17,7 @@ def fplassist(request):
     return render(request, 'fplassist.html')
 
 def updatedb(request):
-    p = FPL_Config.objects.filter(id=1)
+    p = FPL_Config.objects.get(id=1)
 
     if p.bg_active == True:
         return HttpResponse("Database is updating in the background...")
@@ -29,7 +29,7 @@ def updatedb(request):
         return HttpResponse("Database update initiated: " + str(result))
 
 def gentable(request):
-    p = FPL_Config.objects.filter(id=1)
+    p = FPL_Config.objects.get(id=1)
 
     if p.bg_active == True:
         return HttpResponse("Database is updating in the background...")
