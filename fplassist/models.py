@@ -5,7 +5,7 @@ class Team_Info(models.Model):
     team_id = models.IntegerField(default=0)
     team_name = models.CharField(max_length=15)
     short_name = models.CharField(max_length=4)
-    fixture_difficulty = models.DecimalField(max_digits=2, decimal_places=2)
+    fixture_difficulty = models.DecimalField(max_digits=4, decimal_places=2)
     
     def __str__(self):
         return self.team_name
@@ -27,9 +27,9 @@ class Player_Basic_Stats(models.Model):
     player_id = models.IntegerField(default=0)
     points = models.IntegerField(default=0)
     minutes = models.IntegerField(default=0)
-    cost = models.DecimalField(max_digits=2, decimal_places=2)
-    tsb = models.DecimalField(max_digits=3, decimal_places=2)
-    ppg = models.DecimalField(max_digits=2, decimal_places=2)
+    cost = models.DecimalField(max_digits=4, decimal_places=2)
+    tsb = models.DecimalField(max_digits=4, decimal_places=2)
+    ppg = models.DecimalField(max_digits=4, decimal_places=2)
     goals = models.IntegerField(default=0)
     assists = models.IntegerField(default=0)
     cleansheet = models.IntegerField(default=0)
@@ -37,14 +37,14 @@ class Player_Basic_Stats(models.Model):
     bps = models.IntegerField(default=0)
     transfer_in = models.IntegerField(default=0)
     transfer_out = models.IntegerField(default=0)
-    form = models.DecimalField(max_digits=2, decimal_places=2)
+    form = models.DecimalField(max_digits=4, decimal_places=2)
     
     def __str__(self):
         return self.player_id
 
 class Player_Detailed_Stats(models.Model):
     player_id = models.IntegerField(default=0)
-    ict_index = models.DecimalField(max_digits=4, decimal_places=2)
+    ict_index = models.DecimalField(max_digits=5, decimal_places=2)
     open_play_crosses = models.IntegerField(default=0)
     big_chances_created = models.IntegerField(default=0)
     clearances_blocks_interceptions = models.IntegerField(default=0)
