@@ -35,14 +35,14 @@ def generate_table():
 
     cur = conn.cursor()
     
-    cur.execute("SELECT * FROM player_info")
+    cur.execute("SELECT * FROM fplassist_player_info")
     player_list = []
     player_info = cur.fetchall()
     
-    cur.execute("SELECT * FROM player_base_stats")
+    cur.execute("SELECT * FROM fplassist_player_basic_stats")
     player_base_stats = cur.fetchall()
     
-    cur.execute("SELECT * FROM team_info")
+    cur.execute("SELECT * FROM fplassist_team_info")
     team_info = cur.fetchall()
     for player in player_info:
         stat = [_stat for _stat in player_base_stats if _stat[0] == player[0]][0]
@@ -84,18 +84,18 @@ def update_table(data):
 
     cur = conn.cursor()
     
-    cur.execute("SELECT * FROM player_info")
+    cur.execute("SELECT * FROM fplassist_player_info")
     player_list = []
     player_info = cur.fetchall()
     
-    cur.execute("SELECT * FROM player_base_stats")
+    cur.execute("SELECT * FROM fplassist_player_basic_stats")
     player_base_stats = cur.fetchall()
     
-    cur.execute("SELECT * FROM player_deep_stats")
+    cur.execute("SELECT * FROM fplassist_player_detailed_stats")
     player_deep_stats = cur.fetchall()
     print()
     
-    cur.execute("SELECT * FROM team_info")
+    cur.execute("SELECT * FROM fplassist_team_info")
     team_info = cur.fetchall()
     for player in player_info:
         stat = [_stat for _stat in player_base_stats if _stat[0] == player[0]][0]
