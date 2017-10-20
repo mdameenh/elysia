@@ -7,11 +7,38 @@
     padding-right: 1%;
     padding-left: 1%;
 		}
-		
-.myheader {
-	font-size: 18px;
-	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 6px 0 rgba(0,0,0,0.12);
-	}
+
+.filterlist {
+    float:left; 
+    width:15%; 
+    height:auto; 
+    background-color: #E4E6E5;
+}
+	
+.filter_border {
+    border-bottom: 1px solid #A9A9A9;
+}
+
+.filtercategories {
+    margin-left: 10px;
+}
+
+.filterheader {
+    margin:10px; 
+    font-size: 14px; 
+    font-weight:bold;
+}
+
+.filterentry {
+    margin:15px 10px 5px 15px; 
+    font-size: 14px;
+}
+
+.logoheader {
+    width:100%; 
+    overflow:auto; 
+    background-color: #38003c;	
+    }
 	
 * {
     margin: 0; color:#38003c;

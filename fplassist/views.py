@@ -12,9 +12,10 @@ from fplassist import update_database
 from fplassist.models import FPL_Config
 from rq import Queue
 from worker import conn
+from fplassist.contexts import context
 
-def fplassist(request):
-    return render(request, 'fplassist.html')
+def fplassist(request):    
+    return render(request, 'fplassist.html', context)
 
 def updatedb(request):
     p = FPL_Config.objects.get(id=1)
