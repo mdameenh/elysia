@@ -91,15 +91,19 @@ def update_table(data):
             #print("rekt")
             continue
         
-        player_list.append([player["player_name"], team,
-                       player_base_stat["cost"], player["pos_short"], 
-                       player_base_stat["points"], player_base_stat["form"],
+        player_list.append([player["player_name"], player["pos_short"], team,
+                       player_base_stat["points"], player_base_stat["cost"],
                        player_base_stat["transfer_in"], player_base_stat["transfer_out"],
-                       player_base_stat["bps"], player["availability"], 
-                       player_base_stat["cleansheet"], player_base_stat["saves"], 
-                       player_base_stat["tsb"], player_base_stat["minutes"]])
+                       player_base_stat["form"], player_base_stat["minutes"], 
+                       player_base_stat["tsb"], player_base_stat["ppg"], 
+                       player_base_stat["goals"], player_base_stat["assists"],
+                       player_base_stat["cleansheet"], player_base_stat["saves"],
+                       player_base_stat["bps"], player_detailed_stat["ict_index"],
+                       player_detailed_stat["fouls"],
+                         
+                        ])
     print("#5")
 
-    #Name 	Team 	Cost 	Position 	Points 	Form 	Transfer In 	Transfer out 	Bonus 	Availability 	CleanSheet 	Saves 	Selected By 	Minutes
+    #Name 	Position 	Team 	Points Cost Transfer In 	Transfer out Form Minutes TSB PPG goals assist CS saves bps ict fouls
     print("Done")
-    return sorted(player_list, key=lambda x : x[4], reverse=True)
+    return player_list
