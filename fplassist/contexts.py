@@ -18,7 +18,7 @@ misc_context = {
             
             'diff' :        ['Very Easy', 'Easy', 'Hard', 'Very Hard'],
             
-            'points' :      ['points', '0', '600', '1'],
+            'points' :      ['points', '-100', '600', '1'],
             'minutes' :     ['minutes', '0', '3600', '1'],
             'price' :       ['price', '0', '15', '0.1'],
             'tsb' :         ['tsb', '0', '100', '0.1'],
@@ -29,8 +29,8 @@ misc_context = {
             'saves' :       ['saves', '0', '200', '1'],
             'txin' :        ['txin', '0', '6000000', '1'],
             'txout' :       ['txout', '0', '6000000', '1'],
-            'bps' :         ['bps', '0', '1500', '1'],
-            'form' :        ['form', '0', '20', '0.1'],
+            'bps' :         ['bps', '-100', '1500', '1'],
+            'form' :        ['form', '-10', '20', '0.1'],
             
             'ict_index' :                       ['ict_index', '0', '2000', '0.1'], 
             'open_play_crosses' :               ['open_play_crosses', '0', '200', '1'],

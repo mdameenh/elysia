@@ -27,18 +27,11 @@ def update_table(data):
     filter_avail = data.getlist('availability[]')
     filter_diff = data.getlist('difficulty[]')
     
-    print("filters")
-    print(filter_pos)
-    print(filter_team)
-    print(filter_avail)
-    print(filter_diff)
-    print('###')
     print(data.get('points_min'))
     diffs = [fix_diff_map[diff] for diff in filter_diff]
     team_info = Team_Info.objects.filter(team_name__in=filter_team, fixture_difficulty__in=diffs).values()
     team_ids = [team["team_id"] for team in team_info]
-    print(team_info)
-    print('###')
+    print("#1")
     avail_list = []
     for avail in filter_avail:
         avail_list.extend(avail_template[avail])
@@ -46,29 +39,42 @@ def update_table(data):
     print("#2")
     player_info = Player_Info.objects.filter(pos_long__in=filter_pos, team_id__in=team_ids, availability__in=avail_list).values()
     player_id_list = [player["player_id"] for player in player_info]
-    print(len(player_info))
+    print("#3")
     player_base_stats = Player_Basic_Stats.objects.filter(player_id__in=player_id_list, 
-                                                          points__gte=data.get('points_min'), points__lte=data.get('points_max')).values()
-    
+                                                          points__gte=data.get('points_min'), points__lte=data.get('points_max'),
+                                                          minutes__gte=data.get('minutes_min'), minutes__lte=data.get('minutes_max'),
+                                                          cost__gte=data.get('price_min'), cost__lte=data.get('price_max'),
+                                                          tsb__gte=data.get('tsb_min'), tsb__lte=data.get('tsb_max'),
+                                                          ppg__gte=data.get('ppg_min'), ppg__lte=data.get('ppg_max'),
+                                                          goals__gte=data.get('goals_min'), goals__lte=data.get('goals_max'),
+                                                          assists__gte=data.get('assists_min'), assists__lte=data.get('assists_max'),
+                                                          cleansheet__gte=data.get('csheet_min'), cleansheet__lte=data.get('csheet_max'),
+                                                          saves__gte=data.get('saves_min'), saves__lte=data.get('saves_max'),
+                                                          transfer_in__gte=data.get('txin_min'), transfer_in__lte=data.get('txin_max'),
+                                                          transfer_out__gte=data.get('txout_min'), transfer_out__lte=data.get('txout_max'),
+                                                          bps__gte=data.get('bps_min'), bps__lte=data.get('bps_max'),
+                                                          form__gte=data.get('form_min'), form__lte=data.get('form_max')                                                          
+                                                          ).values()
+
     player_deep_stats = Player_Detailed_Stats.objects.filter(player_id__in=player_id_list,
-                                                             ict_index__gt=data.get('ict_index_min'), ict_index__lte=data.get('ict_index_max'),
-                                                             open_play_crosses__gt=data.get('open_play_crosses_min'), open_play_crosses__lte=data.get('open_play_crosses_max'),
-                                                             big_chances_created__gt=data.get('big_chances_created_min'), big_chances_created__lte=data.get('big_chances_created_max'),
-                                                             big_chances_missed__gt=data.get('big_chances_missed_min'), big_chances_missed__lte=data.get('big_chances_missed_max'),
-                                                             recoveries__gt=data.get('recoveries_min'), recoveries__lte=data.get('recoveries_max'),
-                                                             clearances_blocks_interceptions__gt=data.get('clearances_blocks_interceptions_min'), 
+                                                             ict_index__gte=data.get('ict_index_min'), ict_index__lte=data.get('ict_index_max'),
+                                                             open_play_crosses__gte=data.get('open_play_crosses_min'), open_play_crosses__lte=data.get('open_play_crosses_max'),
+                                                             big_chances_created__gte=data.get('big_chances_created_min'), big_chances_created__lte=data.get('big_chances_created_max'),
+                                                             big_chances_missed__gte=data.get('big_chances_missed_min'), big_chances_missed__lte=data.get('big_chances_missed_max'),
+                                                             recoveries__gte=data.get('recoveries_min'), recoveries__lte=data.get('recoveries_max'),
+                                                             clearances_blocks_interceptions__gte=data.get('clearances_blocks_interceptions_min'), 
                                                              clearances_blocks_interceptions__lte=data.get('clearances_blocks_interceptions_max'),
-                                                             tackles__gt=data.get('tackles_min'), tackles__lte=data.get('tackles_max'),
-                                                             tackled__gt=data.get('tackled_min'), tackled__lte=data.get('tackled_max'),
-                                                             key_passes__gt=data.get('key_passes_min'), key_passes__lte=data.get('key_passes_max'),
-                                                             winning_goals__gt=data.get('winning_goals_min'), winning_goals__lte=data.get('winning_goals_max'),
-                                                             attempted_passes__gt=data.get('attempted_passes_min'), attempted_passes__lte=data.get('attempted_passes_max'),
-                                                             completed_passes__gt=data.get('completed_passes_min'), completed_passes__lte=data.get('completed_passes_max'),
-                                                             penalties_conceded__gt=data.get('penalties_conceded_min'), penalties_conceded__lte=data.get('penalties_conceded_max'),
-                                                             offside__gt=data.get('offside_min'), offside__lte=data.get('offside_max'),
-                                                             fouls__gt=data.get('fouls_min'), fouls__lte=data.get('fouls_max'),
-                                                             dribbles__gt=data.get('dribbles_min'), dribbles__lte=data.get('dribbles_max'),
-                                                             target_missed__gt=data.get('target_missed_min'), target_missed__lte=data.get('target_missed_max'),).values()
+                                                             tackles__gte=data.get('tackles_min'), tackles__lte=data.get('tackles_max'),
+                                                             tackled__gte=data.get('tackled_min'), tackled__lte=data.get('tackled_max'),
+                                                             key_passes__gte=data.get('key_passes_min'), key_passes__lte=data.get('key_passes_max'),
+                                                             winning_goals__gte=data.get('winning_goals_min'), winning_goals__lte=data.get('winning_goals_max'),
+                                                             attempted_passes__gte=data.get('attempted_passes_min'), attempted_passes__lte=data.get('attempted_passes_max'),
+                                                             completed_passes__gte=data.get('completed_passes_min'), completed_passes__lte=data.get('completed_passes_max'),
+                                                             penalties_conceded__gte=data.get('penalties_conceded_min'), penalties_conceded__lte=data.get('penalties_conceded_max'),
+                                                             offside__gte=data.get('offside_min'), offside__lte=data.get('offside_max'),
+                                                             fouls__gte=data.get('fouls_min'), fouls__lte=data.get('fouls_max'),
+                                                             dribbles__gte=data.get('dribbles_min'), dribbles__lte=data.get('dribbles_max'),
+                                                             target_missed__gte=data.get('target_missed_min'), target_missed__lte=data.get('target_missed_max'),).values()
     print("###")
     print(len(player_base_stats))
     print(len(player_deep_stats))
