@@ -20,6 +20,5 @@ from fplassist import views
 urlpatterns = [
     url(r'^$', views.fplassist, name="fplassist"),
     url(r'^updatedb/$', views.updatedb, name="updatedb"),
-    url(r'^genTable/$', views.gentable, name="genTable"),
     url(r'^update_table/$', views.updatetable, name="update_table"),
 ]

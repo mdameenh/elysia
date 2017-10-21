@@ -48,13 +48,26 @@ def update_database():
                     difficulty += (fixture["team_h_difficulty"] - fixture["team_a_difficulty"])
                 elif fixture["team_a"] == team["id"]:
                     difficulty += (fixture["team_a_difficulty"] - fixture["team_h_difficulty"])
+
+        t_diff = difficulty/5.0
+        if t_diff <= -4.0:
+            f_difficulty =  0
+        elif t_diff < -2.0:
+            f_difficulty =  1
+        elif t_diff < 0.0:
+            f_difficulty =  2
+        elif t_diff < 2.0:
+            f_difficulty =  3
+        elif t_diff <= 4.0:
+            f_difficulty =  4
+
         try:
             team_entry = Team_Info.objects.get(team_id=team["id"])
-            team_entry.fixture_difficulty =  difficulty/5.0
+            team_entry.fixture_difficulty =  f_difficulty
         except Team_Info.DoesNotExist:
             team_entry = Team_Info(team_id=team["id"], team_name=team["name"], 
                                    short_name=team["short_name"], 
-                                   fixture_difficulty=difficulty/5.0)
+                                   fixture_difficulty=f_difficulty)
         team_entry.save()
     
     print("Team and Fixture Difficulty information stored successfully!")

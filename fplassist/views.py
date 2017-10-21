@@ -6,7 +6,7 @@ Created on Mon Oct  2 22:42:37 2017
 """
 from django.shortcuts import render
 from django.http import HttpResponse
-from fplassist.generate_table import generate_table, update_table
+from fplassist.generate_table import update_table
 from django.http import JsonResponse
 from fplassist import update_database
 from fplassist.models import FPL_Config
@@ -29,13 +29,6 @@ def updatedb(request):
         result = q.enqueue(update_database.update_database)
         return HttpResponse("Database update initiated: " + str(result))
 
-def gentable(request):
-    p = FPL_Config.objects.get(id=1)
-
-    if p.bg_active == True:
-        return HttpResponse("Database is updating in the background...")
-    else:
-        return JsonResponse(generate_table(), safe=False)
 
 def updatetable(request):
     p = FPL_Config.objects.get(id=1)
