@@ -12,7 +12,13 @@
 	<script type="text/javascript">
     	var player_data;
     	var colSort = {};
-    	
+
+       var modal;
+              
+       function close_modal(){
+           modal.style.display = "none";
+       }
+           	
 		function expand_filter(filtername){
              if(document.getElementById(filtername).style.display == "block"){
                  document.getElementById(filtername).style.display = "none";
@@ -25,7 +31,6 @@
         $(document).ready(function() {
             $('#updateForm').on('submit', function (e) {
                 e.preventDefault();
-                //console.log($("#updateForm").serialize());
                 var player_table = document.getElementById('player_table');
                 player_table.style.display = "none";
                 document.getElementById('table_spinner').style.display = "block";
@@ -37,7 +42,7 @@
                         player_data = response;
                         player_table.style.display = "table";
                         document.getElementById('table_spinner').style.display = "none";
-                        updateSortMap(5, null)
+                        updateSortMap(5, null);
                         sortTable(player_table.rows[0].cells[5]);
                     }
                 }); 
@@ -45,6 +50,41 @@
                 return false;               
             });
         });
+        
+        function getPlayerDetail(rowSelect){
+            modal.style.display = "block";
+            document.getElementById("detail_spinner").style.display = "block";
+            document.getElementById("player_detail").style.display = "none";
+            player_id = rowSelect.id.split("_")[1];
+            $.ajax({
+                type: 'GET',
+                url: 'player_details/',
+                data: {"req_player_id" : player_id},
+                success: function (response) {
+                    window.alert(response["tsb"]);
+                    img_src = "https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/110x140/p" + response["photo"]+ ".png"
+                    document.getElementById("pl_img").setAttr("src", img_src);
+                    document.getElementById("pl_name").innerHTML = response["player_name"];
+                    document.getElementById("pl_pos_team").innerHTML = response["pos_long"] + " - " + "Man - City";
+                    document.getElementById("pl_news").innerHTML = response["news"];
+                    
+                    document.getElementById("point_ph").innerHTML = response["points"];
+                    document.getElementById("cost_ph").innerHTML = response["cost"];
+                    document.getElementById("mins_ph").innerHTML = response["minutes"];
+                    document.getElementById("tsb_ph").innerHTML = response["tsb"];
+                    document.getElementById("ppg_ph").innerHTML = response["ppg"];
+                    document.getElementById("goals_ph").innerHTML = response["goals"];
+                    document.getElementById("assists_ph").innerHTML = response["assists"];
+                    document.getElementById("cleans_ph").innerHTML = response["cleansheet"];
+
+                    document.getElementById("txin_ph").innerHTML = response["transfer_in"];
+                    document.getElementById("txout_ph").innerHTML = response["transfer_out"];
+                    document.getElementById("detail_spinner").style.display = "none";
+                    document.getElementById("player_detail").style.display = "block";
+                }
+            });             
+            
+        }
         
         function printTable(inputTable, tableEle){
             var rowCount = tableEle.rows.length;
@@ -56,20 +96,14 @@
             for(var count=0; count<rowCount; count++){
                 player = inputTable[count];
                 var row = tableEle.insertRow(count+1);
-                for(var cell_count=0; cell_count<player.length; cell_count++){
+                row.setAttribute("id", "player_"+ player[player.length-1].toString());
+                row.setAttribute("onclick", "getPlayerDetail(this)");
+                for(var cell_count=0; cell_count<(player.length)-1; cell_count++){
                     row.insertCell(cell_count).innerHTML = player[cell_count]
                 }
             }            
         }
-        
-        function compare(a,b) {
-          if (a.last_nom < b.last_nom)
-            return -1;
-          if (a.last_nom > b.last_nom)
-            return 1;
-          return 0;
-        }
-        
+
         
         function sortTable(cellSelect){
             var tableEle = cellSelect.parentElement.parentElement;
@@ -140,7 +174,7 @@
             
             printTable(sortedTable, tableEle);
         }
-
+        
         function updateSortMap(sortKey, sortOrder){
             cellLength = document.getElementById("header_row").cells.length;
             for(var i=0; i<cellLength; i++){
@@ -155,6 +189,7 @@
 
         function getTableOnload() {
             $(document).ready(function() {
+                modal = document.getElementById('myModal')
                 $('#submit_btn').click();
             });        
         	}
@@ -172,7 +207,79 @@
 	<div class="logoheader">
     	<div class="header_text">FPL Assist</div>
     </div>
-	
+
+	<div id="myModal" class="modal">
+    	<div class="modal-content">
+			<div id="detail_spinner" style="margin-left:50%; margin-top:100px; margin-bottom: 100px">
+    			<div class="loader"></div>
+			</div>    	
+        	<span onclick="close_modal()" class="close">&times;</span>    	
+        	<div id="player_detail" style="display:none">
+            	<div style="margin:35px;">
+                	<div style="overflow:auto;">
+                    	<img class="player_img" id="pl_img" src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/110x140/p182156.png">
+                    	<div style="margin-top:25px; margin-bottom:25px; margin-left:45px; float:left">
+                        	<div id="pl_name" style="margin-bottom:15px; font-size:18px; font-weight:bold; letter-spacing: 1px;">Leroy Sane</div>
+                        	<div id="pl_pos_team" style="margin-bottom:5px; font-size:14px; letter-spacing: 2px;">Midfielder - Man City</div>
+                        	<div id="pl_news" style="margin-bottom:10px;font-size:14px;letter-spacing: 2px;">Match Fit!</div>
+                     </div>
+                  </div>            	
+            	</div>
+    
+            	<hr>
+    
+            	<div style="margin:35px; overflow:auto">
+                	
+                	<div>
+                    	<div style="font-size:21px; width:100%; margin-bottom:25px">Player Base Stats</div>
+               	</div>
+               	<div class="group" style="width:100%">
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">Points</p>
+                        	<div id="point_ph" style="font-weight:bold; font-size:24px">59</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">Cost</p>
+                        	<div id="cost_ph" style="font-weight:bold; font-size:24px">12.7</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">Minutes</p>
+                        	<div id="mins_ph" style="font-weight:bold; font-size:24px">630</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">TSB %</p>
+                        	<div id="tsb_ph" style="font-weight:bold; font-size:24px">48.6</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">PPG</p>
+                        	<div id="ppg_ph" style="font-weight:bold; font-size:24px">8.3</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">Goals</p>
+                        	<div id="goals_ph" style="font-weight:bold; font-size:24px">7</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">Assists</p>
+                        	<div id="assists_ph" style="font-weight:bold; font-size:24px">3</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">Cleans</p>
+                        	<div id="cleans_ph" style="font-weight:bold; font-size:24px">4</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">Transfer In</p>
+                        	<div id="txin_ph" style="font-weight:bold; font-size:24px">129504</div>
+                    </div>
+                    	<div style="float:left; width:140px;">
+                        	<p style="font-size:14px; margin-bottom:10px">Transfer Out</p>
+                        	<div id="txout_ph" style="font-weight:bold; font-size:24px">12230</div>
+                    </div>
+               	</div>
+            	</div>
+        	</div>
+        </div>
+    </div>
+    
 	<div>
 		<div class="filterlist">
 			<br>

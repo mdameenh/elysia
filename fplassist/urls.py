@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^$', views.fplassist, name="fplassist"),
     url(r'^updatedb/$', views.updatedb, name="updatedb"),
     url(r'^update_table/$', views.updatetable, name="update_table"),
+    url(r'^player_details/$', views.get_player_details, name="get_player_details"),
 ]

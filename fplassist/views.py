@@ -6,7 +6,7 @@ Created on Mon Oct  2 22:42:37 2017
 """
 from django.shortcuts import render
 from django.http import HttpResponse
-from fplassist.generate_table import update_table
+from fplassist.generate_table import update_table, player_details
 from django.http import JsonResponse
 from fplassist import update_database
 from fplassist.models import FPL_Config
@@ -39,3 +39,12 @@ def updatetable(request):
         if request.method == 'POST':
             t_resp = update_table(request.POST)
             return JsonResponse(t_resp, safe=False)
+        
+def get_player_details(request):
+    p = FPL_Config.objects.get(id=1)
+
+    if p.bg_active == True:
+        return HttpResponse("Database is updating in the background...")
+    else:
+        t_resp = player_details(request.GET)
+        return JsonResponse(t_resp, safe=False)

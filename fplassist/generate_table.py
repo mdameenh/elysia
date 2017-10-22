@@ -21,6 +21,15 @@ from fplassist.models import Team_Info, Player_Info, Player_Basic_Stats, Player_
 avail_template = {'Available': 'a', 'Injured': 'i', 'Doubtful': 'd', 'Unavailable': ['u', 's', 'n']}
 fix_diff_map = {'Very Easy' : 1, 'Easy' : 2, 'Hard' : 3, 'Very Hard' : 4}
 
+def player_details(data):
+    player_info = Player_Info.objects.filter(player_id=int(data['req_player_id'])).values()
+    player_base_stat = Player_Basic_Stats.objects.filter(player_id=int(data['req_player_id'])).values()
+    player_deep_stat = Player_Detailed_Stats.objects.filter(player_id=int(data['req_player_id'])).values()
+    player_detail = {**player_info[0], **player_base_stat[0], **player_deep_stat[0]}
+    print(player_detail)
+    return player_detail
+
+
 def update_table(data):
     filter_pos = data.getlist('positions[]')
     filter_team = data.getlist('team[]')
@@ -99,8 +108,7 @@ def update_table(data):
                        player_base_stat["goals"], player_base_stat["assists"],
                        player_base_stat["cleansheet"], player_base_stat["saves"],
                        player_base_stat["bps"], player_detailed_stat["ict_index"],
-                       player_detailed_stat["fouls"],
-                         
+                       player_detailed_stat["fouls"], player["player_id"]
                         ])
     print("#5")
 

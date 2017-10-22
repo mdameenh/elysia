@@ -106,7 +106,7 @@ def update_database():
             player_info = Player_Info(player_id=player["id"], player_name=player["web_name"],
                                       pos_short=position_short, pos_long=position_long,
                                       team_id=player["team"], availability=player["status"],
-                                      news=p_news)
+                                      news=p_news, player_photo=player["photo"].split(".")[0])
         player_info.save()
         try:
             player_base_stats = Player_Basic_Stats.objects.get(player_id=player["id"])
