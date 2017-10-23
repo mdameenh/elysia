@@ -56,13 +56,13 @@
             modal.style.display = "block";
             document.getElementById("detail_spinner").style.display = "block";
             document.getElementById("player_detail").style.display = "none";
+            document.getElementById("pl_img").setAttribute("src", "");
             player_id = rowSelect.id.split("_")[1];
             $.ajax({
                 type: 'GET',
                 url: 'player_details/',
                 data: {"req_player_id" : player_id},
                 success: function (response) {
-                    window.alert(response["tsb"]);
                     img_src = "https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/110x140/p" + response["player_photo"]+ ".png"
                     document.getElementById("pl_img").setAttribute("src", img_src);
                     document.getElementById("pl_name").innerHTML = response["player_name"];
@@ -214,14 +214,14 @@
 
 	<div id="myModal" class="modal">
     	<div class="modal-content">
+        	<span onclick="close_modal()" class="close">&times;</span>   
 			<div id="detail_spinner" style="margin-left:50%; margin-top:100px; margin-bottom: 100px">
     			<div class="loader"></div>
-			</div>    	
-        	<span onclick="close_modal()" class="close">&times;</span>    	
+			</div>
         	<div id="player_detail" style="display:none">
             	<div style="margin:35px;">
                 	<div style="overflow:auto;">
-                    	<img class="player_img" id="pl_img" src="https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/110x140/p182156.png">
+                    	<img class="player_img" id="pl_img">
                     	<div style="margin-top:25px; margin-bottom:25px; margin-left:45px; float:left">
                         	<div id="pl_name" style="margin-bottom:15px; font-size:18px; font-weight:bold; letter-spacing: 1px;">Leroy Sane</div>
                         	<div id="pl_pos_team" style="margin-bottom:5px; font-size:14px; letter-spacing: 2px;">Midfielder - Man City</div>

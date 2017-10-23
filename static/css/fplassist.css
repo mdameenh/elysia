@@ -190,7 +190,7 @@ td::after {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 90%;
+    width: 80%;
 }
 
 /* The Close Button */
@@ -219,10 +219,10 @@ hr {
     display: block;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 20px;
+    margin-right: 20px;
     border-style: inset;
-    border-width: 1px;
+    border-width: 0.5px;
 }
 
 .group{
