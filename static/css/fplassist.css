@@ -1,11 +1,9 @@
 .header_text {
+    margin: 5px 10px;
     color: #FFFFFF;
     font-size: 16px;
     text-align: right;
-    line-height: 1.5;
     float: right;
-    padding-right: 1%;
-    padding-left: 1%;
 		}
 
 .filterlist {
