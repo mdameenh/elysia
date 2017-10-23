@@ -62,7 +62,7 @@
                 data: {"req_player_id" : player_id},
                 success: function (response) {
                     window.alert(response["tsb"]);
-                    img_src = "https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/110x140/p" + response["photo"]+ ".png"
+                    img_src = "https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/110x140/p" + response["player_photo"]+ ".png"
                     document.getElementById("pl_img").setAttribute("src", img_src);
                     document.getElementById("pl_name").innerHTML = response["player_name"];
                     document.getElementById("pl_pos_team").innerHTML = response["pos_long"] + " - " + "Man - City";
