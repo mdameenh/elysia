@@ -27,6 +27,7 @@
                  document.getElementById(filtername).style.display = "block";
              }
          }
+         
 
         $(document).ready(function() {
             $('#updateForm').on('submit', function (e) {
@@ -205,6 +206,9 @@
 <body>
 <div>
 	<div class="logoheader">
+    	<div onclick='expand_filter("adjustfilters")' style="float:left">
+            <img src="../static/images/adjusticon.png" style="width: 33px;margin-left: 5px;">
+      </div>
     	<div class="header_text">FPL Assist</div>
     </div>
 
@@ -280,8 +284,8 @@
         </div>
     </div>
     
-	<div>
-		<div class="filterlist">
+	<div style="display:flex; height:100%">
+		<div id="adjustfilters" class="filterlist" style="display:none">
 			<br>
 			<div>
 			   <p style="margin-left:10px; font-size: 16px;">Adjust your search criteria: </p>
@@ -357,9 +361,9 @@
             <input id="submit_btn" class="update_btn" type="submit" value="Update">
     		</form>
 		</div>
-		<div style="float:right; width:85%; height:auto ">
+		<div style="float:right; width:-moz-available; width:-moz-available; width:-webkit-fill-available; height:auto ">
 			<div style="overflow:auto">
-    			<div id="table_spinner" style="margin-left:45%; margin-top:5%; margin-bottom: 15%">
+    			<div id="table_spinner" style="margin-left:45%; margin-top:5%;">
         			<div class="loader"></div>
     			</div>
 				<table id="player_table">

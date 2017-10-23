@@ -9,9 +9,9 @@
 		}
 
 .filterlist {
+    flex: 1 1 auto;
     float:left; 
     width:15%; 
-    height:auto; 
     background-color: #E4E6E5;
 }
 	
@@ -35,6 +35,7 @@
 }
 
 .logoheader {
+    flex: 0 1 auto;
     width:100%; 
     overflow:auto; 
     background-color: #38003c;	
