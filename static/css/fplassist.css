@@ -11,6 +11,7 @@
     float:left; 
     width:15%; 
     background-color: #E4E6E5;
+    min-width: 275px;
 }
 	
 .filter_border {
