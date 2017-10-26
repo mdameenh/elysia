@@ -4,6 +4,7 @@
 	<meta http-equiv="Content-type" content="text/html;charset=utf-8">
 	<link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../static/css/fplassist.css">
 	<script src="../static/scripts/jquery.min.js"></script>
 	<script src="../static/scripts/jquery.form.js"></script> 
@@ -69,19 +70,22 @@
                     document.getElementById("pl_pos_team").innerHTML = response["pos_long"] + " - " + "Man - City";
                     document.getElementById("pl_news").innerHTML = response["news"];
                     
-                    document.getElementById("point_ph").innerHTML = response["points"];
-                    document.getElementById("cost_ph").innerHTML = response["cost"];
-                    document.getElementById("mins_ph").innerHTML = response["minutes"];
-                    document.getElementById("tsb_ph").innerHTML = response["tsb"];
-                    document.getElementById("ppg_ph").innerHTML = response["ppg"];
-                    document.getElementById("goals_ph").innerHTML = response["goals"];
-                    document.getElementById("assists_ph").innerHTML = response["assists"];
-                    document.getElementById("cleans_ph").innerHTML = response["cleansheet"];
+                    player_stats = ["points", "cost", "minutes", "tsb", "ppg",
+                                    "goals", "assists", "cleansheet", "transfer_in", 
+                                    "transfer_out", "ict_index", "open_play_crosses", 
+                                    "big_chances_created", "clearances_blocks_interceptions", 
+                                    "recoveries", "key_passes", "tackles", "winning_goals", 
+                                    "attempted_passes", "completed_passes", "penalties_conceded", 
+                                    "big_chances_missed", "tackled", "offside", 
+                                    "target_missed", "fouls", "dribbles"]
+                    
+                    for(var i = 0; i<player_stats.length; i++){
+                        document.getElementById(player_stats[i]+"_ph").innerHTML = response[player_stats[i]];
+                    }
 
-                    document.getElementById("txin_ph").innerHTML = response["transfer_in"];
-                    document.getElementById("txout_ph").innerHTML = response["transfer_out"];
                     document.getElementById("detail_spinner").style.display = "none";
                     document.getElementById("player_detail").style.display = "block";
+                    
                 }
             });             
             
@@ -214,7 +218,9 @@
 
 	<div id="myModal" class="modal">
     	<div class="modal-content">
-        	<span onclick="close_modal()" class="close">&times;</span>   
+        	<div style="overflow: auto; background-color: #38003c;"> 
+            	<span onclick="close_modal()" class="close">&times;</span>   
+        	</div>
 			<div id="detail_spinner" style="margin-left:50%; margin-top:100px; margin-bottom: 100px">
     			<div class="loader"></div>
 			</div>
@@ -225,8 +231,9 @@
                     	<div style="margin-top:25px; margin-bottom:25px; margin-left:45px; float:left">
                         	<div id="pl_name" style="margin-bottom:15px; font-size:18px; font-weight:bold; letter-spacing: 1px;">Leroy Sane</div>
                         	<div id="pl_pos_team" style="margin-bottom:5px; font-size:14px; letter-spacing: 2px;">Midfielder - Man City</div>
-                        	<div id="pl_news" style="margin-bottom:10px;font-size:14px;letter-spacing: 2px;">Match Fit!</div>
+                        	<div id="pl_news" style="margin-bottom:10px;font-size:14px;letter-spacing: 2px; background-color: #78F260; padding: 3px;">Match Fit!</div>
                      </div>
+                     <div style="float:right"></div>
                   </div>            	
             	</div>
     
@@ -240,46 +247,125 @@
                	<div class="group" style="width:100%">
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">Points</p>
-                        	<div id="point_ph" style="font-weight:bold; font-size:24px">59</div>
+                        	<div id="points_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">Cost</p>
-                        	<div id="cost_ph" style="font-weight:bold; font-size:24px">12.7</div>
+                        	<div id="cost_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">Minutes</p>
-                        	<div id="mins_ph" style="font-weight:bold; font-size:24px">630</div>
+                        	<div id="minutes_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">TSB %</p>
-                        	<div id="tsb_ph" style="font-weight:bold; font-size:24px">48.6</div>
+                        	<div id="tsb_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">PPG</p>
-                        	<div id="ppg_ph" style="font-weight:bold; font-size:24px">8.3</div>
+                        	<div id="ppg_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">Goals</p>
-                        	<div id="goals_ph" style="font-weight:bold; font-size:24px">7</div>
+                        	<div id="goals_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">Assists</p>
-                        	<div id="assists_ph" style="font-weight:bold; font-size:24px">3</div>
+                        	<div id="assists_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">Cleans</p>
-                        	<div id="cleans_ph" style="font-weight:bold; font-size:24px">4</div>
+                        	<div id="cleansheet_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">Transfer In</p>
-                        	<div id="txin_ph" style="font-weight:bold; font-size:24px">129504</div>
+                        	<div id="transfer_in_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                     	<div style="float:left; width:140px;">
                         	<p style="font-size:14px; margin-bottom:10px">Transfer Out</p>
-                        	<div id="txout_ph" style="font-weight:bold; font-size:24px">12230</div>
+                        	<div id="transfer_out_ph" style="font-weight:bold; font-size:24px"></div>
                     </div>
                	</div>
             	</div>
+            	<hr>
+    
+            	<div style="margin:35px; overflow:auto">
+                	
+                	<div>
+                    	<div style="font-size:21px; width:100%; margin-bottom:25px">Player Detailed Stats</div>
+               	</div>
+               	<div class="group" style="width:100%">
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">ICT Index</p>
+                        	<div id="ict_index_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Big Chances Created</p>
+                        	<div id="big_chances_created_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Big Chances Missed</p>
+                        	<div id="big_chances_missed_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Clearances/Blocks</p>
+                        	<div id="clearances_blocks_interceptions_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Recoveries</p>
+                        	<div id="recoveries_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Key Passes</p>
+                        	<div id="key_passes_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Tackles</p>
+                        	<div id="tackles_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Tackled</p>
+                        	<div id="tackled_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Winning Goals</p>
+                        	<div id="winning_goals_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Pass: Attempted</p>
+                        	<div id="attempted_passes_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Pass: Completed</p>
+                        	<div id="completed_passes_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Penalty Conceded</p>
+                        	<div id="penalties_conceded_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Crosses</p>
+                        	<div id="open_play_crosses_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Offside</p>
+                        	<div id="offside_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Target Missed</p>
+                        	<div id="target_missed_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Fouls</p>
+                        	<div id="fouls_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">Dribbles</p>
+                        	<div id="dribbles_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>
+               	</div>
+            	</div>
+            	
         	</div>
         </div>
     </div>
@@ -361,7 +447,7 @@
             <input id="submit_btn" class="update_btn" type="submit" value="Update">
     		</form>
 		</div>
-		<div style="float:right; width:-moz-available; width:-moz-available; width:-webkit-fill-available; height:auto ">
+		<div style="float:right; width:-moz-available; width:-webkit-fill-available; height:auto; overflow:auto">
 			<div style="overflow:auto">
     			<div id="table_spinner" style="margin-left:45%; margin-top:5%;">
         			<div class="loader"></div>

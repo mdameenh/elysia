@@ -42,7 +42,7 @@
 	
 * {
     margin: 0; color:#38003c;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Dosis', sans-serif;
     }
 		
 img {
@@ -187,9 +187,8 @@ td::after {
 
 /* Modal Content */
 .modal-content {
-    background-color: #fefefe;
+    background-color: #eeeeee;
     margin: auto;
-    padding: 20px;
     border: 1px solid #888;
     width: 80%;
 }
@@ -200,11 +199,12 @@ td::after {
     float: right;
     font-size: 28px;
     font-weight: bold;
+    margin: 5px 20px;
 }
 
 .close:hover,
 .close:focus {
-    color: #000;
+    color: #eeeeee;
     text-decoration: none;
     cursor: pointer;
 }
@@ -223,6 +223,7 @@ hr {
     margin-left: 20px;
     margin-right: 20px;
     border-style: inset;
+    border-color: #38003c;
     border-width: 0.5px;
 }
 
