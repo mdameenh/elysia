@@ -69,6 +69,15 @@
                     document.getElementById("pl_name").innerHTML = response["player_name"];
                     document.getElementById("pl_pos_team").innerHTML = response["pos_long"] + " - " + "Man - City";
                     document.getElementById("pl_news").innerHTML = response["news"];
+                    if (response["availability"] == "a"){
+                        document.getElementById("pl_news").style.backgroundColor = "78F260";
+                    }
+                    else if(response["availability"] == "d"){
+                        document.getElementById("pl_news").style.backgroundColor = "#EFB129";
+                    }
+                    else{
+                        document.getElementById("pl_news").style.backgroundColor = "#F5572E";
+                    }
                     
                     player_stats = ["points", "cost", "minutes", "tsb", "ppg",
                                     "goals", "assists", "cleansheet", "transfer_in", 
