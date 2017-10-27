@@ -191,6 +191,7 @@ td::after {
     margin: auto;
     border: 1px solid #888;
     width: 80%;
+    overflow: hidden;
 }
 
 /* The Close Button */
