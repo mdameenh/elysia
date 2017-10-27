@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
+from decimal import Decimal
 # Create your models here.
 
 class Team_Info(models.Model):
@@ -61,7 +63,10 @@ class Player_Detailed_Stats(models.Model):
     target_missed = models.IntegerField(default=0)
     fouls = models.IntegerField(default=0)
     dribbles = models.IntegerField(default=0)
-
+    points_history = ArrayField(models.IntegerField(default=0), default=list, size=38)
+    ict_history = ArrayField(models.DecimalField(max_digits=4, 
+                                                        decimal_places=1, default=Decimal("0.0")), default=list, size=38)
+    
     def __str__(self):
         return self.player_id
     

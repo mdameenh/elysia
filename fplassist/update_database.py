@@ -96,7 +96,11 @@ def update_database():
                             'target_missed':0, 'fouls':0, 'dribbles':0}
         
         player_deep = get_data("https://fantasy.premierleague.com/drf/element-summary/%d" % (player["id"]))["history"]
+        _points_history = []
+        _ict_history = []
         for deep_stat in player_deep:
+            _points_history.append(deep_stat["total_points"])
+            _ict_history.append(deep_stat["ict_index"])
             for deep_attr in player_deep_cumul:
                 player_deep_cumul[deep_attr] +=  float(deep_stat[deep_attr])
         try:
@@ -135,6 +139,7 @@ def update_database():
                                                    transfer_out=player["transfers_out_event"],
                                                    form=player["form"])
         player_base_stats.save()
+        
         try:
             player_detailed = Player_Detailed_Stats.objects.get(player_id=player["id"])
             player_detailed.ict_index = player_deep_cumul["ict_index"]
@@ -154,6 +159,8 @@ def update_database():
             player_detailed.target_missed = player_deep_cumul["target_missed"]
             player_detailed.fouls = player_deep_cumul["fouls"]
             player_detailed.dribbles = player_deep_cumul["dribbles"]
+            player_detailed.points_history = _points_history
+            player_detailed.ict_history = _ict_history
             
         except Player_Detailed_Stats.DoesNotExist:
             player_detailed = Player_Detailed_Stats(player_id=player["id"], ict_index=player_deep_cumul["ict_index"],
@@ -172,7 +179,9 @@ def update_database():
                                                     offside=player_deep_cumul["offside"],
                                                     target_missed=player_deep_cumul["target_missed"],
                                                     fouls=player_deep_cumul["fouls"],
-                                                    dribbles=player_deep_cumul["dribbles"])
+                                                    dribbles=player_deep_cumul["dribbles"],
+                                                    points_history = _points_history,
+                                                    ict_history = _ict_history)
         player_detailed.save()
 
     p = FPL_Config.objects.get(id=1)
