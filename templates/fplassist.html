@@ -9,7 +9,9 @@
 	<script src="../static/scripts/jquery.min.js"></script>
 	<script src="../static/scripts/jquery.form.js"></script> 
 	<script src="../static/scripts/filter_entries.js"></script> 
-	<script src="../static/scripts/fplassist.js"></script> 
+	<script src="../static/scripts/fplassist.js"></script>
+	<script src="http://www.chartjs.org/dist/2.7.0/Chart.bundle.js"></script>
+	<script src="http://www.chartjs.org/dist/2.7.0/Chart.js"></script>
 	
 	<script type="text/javascript">
         function getTableOnload() {
@@ -112,7 +114,6 @@
             	</div>
             	<hr>    
             	<div style="margin:35px; overflow:auto">
-                	
                 	<div>
                     	<div style="font-size:21px; width:100%; margin-bottom:25px">Player Detailed Stats</div>
                	</div>
@@ -184,14 +185,18 @@
                     	<div style="float:left; width:160px; margin-bottom:25px">
                         	<p style="font-size:14px; margin-bottom:10px">Dribbles</p>
                         	<div id="dribbles_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Points History</p>
-                        	<div id="points_history_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>                    
+                    </div>                 
                	</div>
             	</div>
-            	
+            	<hr>    
+            	<div style="margin:35px; overflow:auto">
+                	<div>
+                    	<div style="font-size:21px; width:100%; margin-bottom:25px">Season Performance</div>
+               	</div>
+               	<div class="group" style="width:100%; margin-left: -15px;">
+                      <canvas id="canvas" class="chartjs-render-monitor"></canvas>
+               	</div>
+              </div>
         	</div>
         </div>
     </div>

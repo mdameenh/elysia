@@ -189,8 +189,9 @@ td::after {
 .modal-content {
     background-color: #eeeeee;
     margin: auto;
+    margin-bottom: 120px;
     border: 1px solid #888;
-    width: 80%;
+    width: 82%;
     overflow: hidden;
 }
 
