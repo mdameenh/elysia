@@ -65,7 +65,9 @@
                 data: {"req_player_id" : player_id},
                 success: function (response) {
                     img_src = "https://platform-static-files.s3.amazonaws.com/premierleague/photos/players/110x140/p" + response["player_photo"]+ ".png"
+		    team_src = "../static/team_" + response["team_code"] + ".png"
                     document.getElementById("pl_img").setAttribute("src", img_src);
+		    document.getElementById("team_logo").setAttribute("src", team_src)
                     document.getElementById("pl_name").innerHTML = response["player_name"];
                     document.getElementById("pl_pos_team").innerHTML = response["pos_long"] + " - " + "Man - City";
                     document.getElementById("pl_news").innerHTML = response["news"];
@@ -228,7 +230,7 @@
 	<div id="myModal" class="modal">
     	<div class="modal-content">
 	    	<div style="position:relative; ">
-  			<img src="https://m0.joe.co.uk/wp-content/uploads/2016/08/24134543/mancity.png" style="position:absolute; margin-top: 4%; margin-left: 50%;display: block;opacity: 0.1;">
+  			<img id="team_logo" src="https://m0.joe.co.uk/wp-content/uploads/2016/08/24134543/mancity.png" style="position:absolute; width:900px; height:900px; margin-top: 100px; margin-left: 50%;display: block;opacity: 0.1;">
 	    	</div>
         	<div style="overflow: auto; background-color: #38003c;"> 
             	<span onclick="close_modal()" class="close">&times;</span>   
