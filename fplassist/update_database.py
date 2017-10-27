@@ -52,7 +52,7 @@ def update_database():
         t_diff = difficulty/5.0
         if t_diff <= -4.0:
             f_difficulty =  0
-        elif t_diff < -2.0:
+        elif t_diff < -1.0:
             f_difficulty =  1
         elif t_diff < 0.0:
             f_difficulty =  2
