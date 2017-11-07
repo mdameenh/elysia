@@ -56,7 +56,7 @@ def update_movie_db(movie_file):
                     elif rating["Source"] == "Metacritic":
                         metacritic = int(rating["Value"].split("/")[0])
                 if movie["BoxOffice"] != "N/A":
-                    boxoffice = int(movie["BoxOffice"].strip("$").replace(",", ""))
+                    boxoffice = int(eval(movie["BoxOffice"].strip("$").replace(",", "")))
                 else:
                     boxoffice = 0
             except KeyError:
