@@ -11,7 +11,8 @@ Sample request : http://www.omdbapi.com/?t=Care+Bears:+Share+Bear+Shines&apikey=
 import json
 from urllib.parse import urlencode 
 from moviecritic.models import Movie_Details
-import requests
+from elysia.settings import BASE_DIR
+import requests, os
 
 
 API_KEY = "ab808c9c"
@@ -19,7 +20,7 @@ API_KEY = "ab808c9c"
 def run_omdb(key, wiki_file):
     movie_list = []
     wiki_data = None
-    with open(wiki_file) as f:
+    with open(os.path.join(BASE_DIR, wiki_file)) as f:
         wiki_data = json.load(f)
    
     for year, movies in wiki_data.items():
@@ -32,11 +33,11 @@ def run_omdb(key, wiki_file):
                 movie_list.append(movie_data)
             else:
                 print("Error getting movie details!")
-    with open("moviecritic\movies.json", 'w') as movie_file:
+    with open(os.path.join(BASE_DIR, "moviecritic\movies.json"), 'w') as movie_file:
         json.dump(movie_list, movie_file, indent=4)
 
 def update_movie_db(movie_file):
-    with open(movie_file) as movies_data_file:
+    with open(os.path.join(BASE_DIR, movie_file)) as movies_data_file:
         for movie in json.load(movies_data_file):
             print("Uploading %s" % (movie["Title"]))
             genre = [p.strip() for p in movie["Genre"].split(",")]
