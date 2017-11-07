@@ -55,8 +55,10 @@ def update_movie_db(movie_file):
                         rottentomatoes = int(rating["Value"].split("%")[0])
                     elif rating["Source"] == "Metacritic":
                         metacritic = int(rating["Value"].split("/")[0])
-                
-                boxoffice = int(movie["BoxOffice"].strip("$").replace(",", ""))
+                if movie["BoxOffice"] != "N/A":
+                    boxoffice = int(movie["BoxOffice"].strip("$").replace(",", ""))
+                else:
+                    boxoffice = 0
             except KeyError:
                 print("Problem with api data. Ignore and continue.")
                 continue
