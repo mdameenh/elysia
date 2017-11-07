@@ -1,4 +1,5 @@
-from django.http import JsonResponse, render
+from django.http import JsonResponse
+from django.shortcuts import render
 import json
 from moviecritic.omdb import omdb
 
