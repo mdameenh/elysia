@@ -33,7 +33,7 @@ def run_omdb(key, wiki_file):
                 movie_list.append(movie_data)
             else:
                 print("Error getting movie details!")
-    with open(os.path.join(BASE_DIR, "moviecritic\movies.json"), 'w') as movie_file:
+    with open(os.path.join(BASE_DIR, "moviecritic/movies.json"), 'w') as movie_file:
         json.dump(movie_list, movie_file, indent=4)
 
 def update_movie_db(movie_file):
@@ -70,8 +70,8 @@ def update_movie_db(movie_file):
         
 
 def omdb():
-    run_omdb(API_KEY, "moviecritic\data.json")
-    update_movie_db("moviecritic\movies.json")
+    run_omdb(API_KEY, "moviecritic/data.json")
+    update_movie_db("moviecritic/movies.json")
 
 if __name__ == "__main__":
     omdb()
