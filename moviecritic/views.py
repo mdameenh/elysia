@@ -9,8 +9,8 @@ from worker import conn
 # Create your views here.
 
 def updatedb(request):    
-    q = Queue(connection=conn, timeout=600)
-    result = q.enqueue(omdb)
+    q = Queue(connection=conn)
+    result = q.enqueue(omdb, timeout=600)
     return HttpResponse("Database update initiated: " + str(result))    
     
 def moviecritic(request):
