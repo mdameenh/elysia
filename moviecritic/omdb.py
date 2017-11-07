@@ -74,7 +74,7 @@ def update_movie_db(movie_file):
         
 
 def omdb():
-    run_omdb(API_KEY, "moviecritic/data_temp.json")
+    run_omdb(API_KEY, "moviecritic/data.json")
     update_movie_db("moviecritic/movies.json")
 
 if __name__ == "__main__":
