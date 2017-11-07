@@ -11,10 +11,10 @@ class Movie_Details(models.Model):
     metacritic = models.IntegerField(default=0)
     rottentomatoes = models.IntegerField(default=0)
     
-    genre = ArrayField(models.CharField(max_length=20), default=list, size=50)
-    director = ArrayField(models.CharField(max_length=35), default=list, size=50)
-    lang = ArrayField(models.CharField(max_length=20), default=list, size=50)
-    country = ArrayField(models.CharField(max_length=35), default=list, size=50)
+    genre = ArrayField(models.CharField(max_length=40), default=list, size=50)
+    director = ArrayField(models.CharField(max_length=40), default=list, size=50)
+    lang = ArrayField(models.CharField(max_length=40), default=list, size=50)
+    country = ArrayField(models.CharField(max_length=40), default=list, size=50)
     prod = ArrayField(models.CharField(max_length=40), default=list, size=50)
         
     def __str__(self):
