@@ -10,8 +10,8 @@
 	<script src="../static/scripts/jquery.form.js"></script> 
 	<script src="../static/scripts/filter_entries.js"></script> 
 	<script src="../static/scripts/fplassist.js"></script>
-	<script src="http://www.chartjs.org/dist/2.7.0/Chart.bundle.js"></script>
-	<script src="http://www.chartjs.org/dist/2.7.0/Chart.js"></script>
+	<script src="../static/scripts/Chart.bundle.js"></script>
+	<script src="../static/scripts/Chart.js"></script>
 	
 	<script type="text/javascript">
         function getTableOnload() {
@@ -54,8 +54,8 @@
                 	<div style="overflow:auto;">
                     	<img class="player_img" id="pl_img">
                     	<div style="margin-top:25px; margin-bottom:25px; margin-left:45px; float:left">
-                        	<div id="pl_name" style="margin-bottom:15px; font-size:18px; font-weight:bold; letter-spacing: 1px;">Leroy Sane</div>
-                        	<div id="pl_pos_team" style="margin-bottom:5px; font-size:14px; letter-spacing: 2px;">Midfielder - Man City</div>
+                        	<div id="pl_name" style="margin-bottom:15px; font-size:18px; font-weight:bold; letter-spacing: 1px;"></div>
+                        	<div id="pl_pos_team" style="margin-bottom:5px; font-size:14px; letter-spacing: 2px;"></div>
                         	<div id="pl_news" style="margin-bottom:10px;font-size:14px;letter-spacing: 2px; background-color: #78F260; padding: 3px;">Match Fit!</div>
                      </div>
                      <div style="float:right"></div>
@@ -185,7 +185,11 @@
                     	<div style="float:left; width:160px; margin-bottom:25px">
                         	<p style="font-size:14px; margin-bottom:10px">Dribbles</p>
                         	<div id="dribbles_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>                 
+                    </div>  
+                    	<div style="float:left; width:160px; margin-bottom:25px">
+                        	<p style="font-size:14px; margin-bottom:10px">BPS</p>
+                        	<div id="bps_ph" style="font-weight:bold; font-size:24px"></div>
+                    </div>                                    
                	</div>
             	</div>
             	<hr>    
@@ -201,7 +205,7 @@
         </div>
     </div>
     
-	<div style="display:flex; height:100%">
+	<div style="display:flex; height:100%; padding-top: 30px;">
 		<div id="adjustfilters" class="filterlist" style="display:none">
 			<br>
 			<div>

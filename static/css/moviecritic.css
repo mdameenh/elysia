@@ -1,0 +1,49 @@
+* {
+    margin: 0; color:#333333;
+    font-family: 'Dosis', sans-serif;
+   }
+   
+.header-text-container {
+    margin: 5px 10px;
+    font-size: 16px;
+    text-align: right;
+    float: right;
+}
+
+.header-text {
+    color:#f0f0f0
+}
+
+.header-div {
+    background-color: #333333;	
+    overflow:auto;
+    position: fixed;
+    width:100%;
+}
+
+.nav-filters {
+    float:left;
+    background-color: #eeeeee;
+    min-width: 275px;
+    flex: 0 1 auto;
+}
+
+.nav-elements {
+}
+
+.nav-element {
+    padding: 15px;
+}
+
+.content-div {
+    float:right;
+    flex: 1 1 auto;
+    padding-bottom: 1000px;    
+}
+
+.main-content-div {
+    padding-top: 25px;
+    display: flex;
+    height: 100%;
+    overflow: auto;
+}

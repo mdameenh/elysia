@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['localhost', 'elysia1.herokuapp.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'fplassist.apps.FplassistConfig',
+    'moviecritic.apps.MoviecriticConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -64,7 +64,7 @@ function getPlayerDetail(rowSelect){
             document.getElementById("pl_pos_team").innerHTML = response["pos_long"] + " - " + team_map[response["team_id"]];
             document.getElementById("pl_news").innerHTML = response["news"];
             if (response["availability"] == "a"){
-                document.getElementById("pl_news").style.backgroundColor = "78F260";
+                document.getElementById("pl_news").style.backgroundColor = "#78F260";
             }
             else if(response["availability"] == "d"){
                 document.getElementById("pl_news").style.backgroundColor = "#EFB129";
@@ -80,7 +80,7 @@ function getPlayerDetail(rowSelect){
                             "recoveries", "key_passes", "tackles", "winning_goals", 
                             "attempted_passes", "completed_passes", "penalties_conceded", 
                             "big_chances_missed", "tackled", "offside", 
-                            "target_missed", "fouls", "dribbles"]
+                            "target_missed", "fouls", "dribbles", "bps"]
             
             for(var i = 0; i<player_stats.length; i++){
                 document.getElementById(player_stats[i]+"_ph").innerHTML = response[player_stats[i]];
@@ -235,7 +235,7 @@ function getChartData(points_hist, ict_hist){
             responsive: true,
             title:{
                 display:true,
-                text:'Chart.js Line Chart'
+                text:'Premier League Player Performance'
             },
             tooltips: {
                 mode: 'index',
@@ -250,14 +250,14 @@ function getChartData(points_hist, ict_hist){
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Month'
+                        labelString: 'Gameweek'
                     }
                 }],
                 yAxes: [{
                     display: true,
                     scaleLabel: {
                         display: true,
-                        labelString: 'Value'
+                        labelString: 'Points'
                     }
                 }]
             }

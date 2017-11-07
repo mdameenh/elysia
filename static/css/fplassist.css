@@ -37,7 +37,8 @@
     flex: 0 1 auto;
     width:100%; 
     overflow:auto; 
-    background-color: #38003c;	
+    background-color: #38003c;
+    position: fixed;
     }
 	
 * {
