@@ -19,5 +19,6 @@ from moviecritic import views
 
 urlpatterns = [
     url(r'^$', views.moviecritic, name="moviecritic"),
-    url(r'^updatedb$', views.updatedb, name="updatedb")
+    url(r'^updatedb$', views.updatedb, name="updatedb"),
+    url(r'^check_update$', views.get_movie_details, name="get_movie_details"),
 ]
