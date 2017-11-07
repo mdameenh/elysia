@@ -32,6 +32,7 @@ def run_omdb(key, wiki_file):
             if movie_data["Response"] == "True":
                 movie_list.append(movie_data)
             else:
+                print(movie_data)
                 print("Error getting movie details!")
     with open(os.path.join(BASE_DIR, "moviecritic/movies.json"), 'w') as movie_file:
         json.dump(movie_list, movie_file, indent=4)

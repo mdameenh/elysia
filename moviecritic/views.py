@@ -9,7 +9,7 @@ from worker import conn
 # Create your views here.
 
 def updatedb(request):    
-    q = Queue(connection=conn)
+    q = Queue(connection=conn, timeout=600)
     result = q.enqueue(omdb)
     return HttpResponse("Database update initiated: " + str(result))    
     
