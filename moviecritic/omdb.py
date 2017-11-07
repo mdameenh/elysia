@@ -41,22 +41,25 @@ def update_movie_db(movie_file):
     with open(os.path.join(BASE_DIR, movie_file)) as movies_data_file:
         for movie in json.load(movies_data_file):
             print("Uploading %s" % (movie["Title"]))
-            genre = [p.strip() for p in movie["Genre"].split(",")]
-            director = [p.strip() for p in movie["Director"].split(",")]
-            lang = [p.strip() for p in movie["Language"].split(",")]
-            country = [p.strip() for p in movie["Country"].split(",")]
-            prod = [p.strip() for p in movie["Production"].split(",")]
-            
-            for rating in movie["Ratings"]:
-                if rating["Source"] == "Internet Movie Database":
-                    imdb = int(float(rating["Value"].split("/")[0]) * 10)
-                elif rating["Source"] == "Rotten Tomatoes":
-                    rottentomatoes = int(rating["Value"].split("%")[0])
-                elif rating["Source"] == "Metacritic":
-                    metacritic = int(rating["Value"].split("/")[0])
-            
-            boxoffice = int(movie["BoxOffice"].strip("$").replace(",", ""))
-            
+            try:
+                genre = [p.strip() for p in movie["Genre"].split(",")]
+                director = [p.strip() for p in movie["Director"].split(",")]
+                lang = [p.strip() for p in movie["Language"].split(",")]
+                country = [p.strip() for p in movie["Country"].split(",")]
+                prod = [p.strip() for p in movie["Production"].split(",")]
+                
+                for rating in movie["Ratings"]:
+                    if rating["Source"] == "Internet Movie Database":
+                        imdb = int(float(rating["Value"].split("/")[0]) * 10)
+                    elif rating["Source"] == "Rotten Tomatoes":
+                        rottentomatoes = int(rating["Value"].split("%")[0])
+                    elif rating["Source"] == "Metacritic":
+                        metacritic = int(rating["Value"].split("/")[0])
+                
+                boxoffice = int(movie["BoxOffice"].strip("$").replace(",", ""))
+            except KeyError:
+                print("Problem with api data. Ignore and continue.")
+                continue
             obj, created = Movie_Details.objects.get_or_create(name=movie["Title"],
                                                 year=movie["Year"],
                                                 defaults={'genre': genre,
@@ -71,7 +74,7 @@ def update_movie_db(movie_file):
         
 
 def omdb():
-    run_omdb(API_KEY, "moviecritic/data.json")
+    run_omdb(API_KEY, "moviecritic/data_temp.json")
     update_movie_db("moviecritic/movies.json")
 
 if __name__ == "__main__":
