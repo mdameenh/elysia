@@ -20,6 +20,6 @@ from fplassist import views
 urlpatterns = [
     url(r'^$', views.fplassist, name="fplassist"),
     url(r'^updatedb/$', views.updatedb, name="updatedb"),
-    url(r'^update_table/$', views.updatetable, name="update_table"),
-    url(r'^player_details/$', views.get_player_details, name="get_player_details"),
+    url(r'^get_data/$', views.get_data, name="get_data"),
+    url(r'^get_filters/$', views.get_filters, name="get_filters")
 ]

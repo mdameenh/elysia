@@ -1,320 +1,56 @@
 <!DOCTYPE HTML>
-<html lang="en"><head>
+<html lang="en">
+<head>
 	<title>Fantasy Premier League - Assistant</title>
 	<meta http-equiv="Content-type" content="text/html;charset=utf-8">
-	<link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet"> 
-	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../static/css/fplassist.css">
-	<script src="../static/scripts/jquery.min.js"></script>
-	<script src="../static/scripts/jquery.form.js"></script> 
-	<script src="../static/scripts/filter_entries.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="../static/scripts/jquery.form.js"></script>
+    <script type="text/javascript" src="../static/scripts/jquery.tablesorter.js"></script>	
 	<script src="../static/scripts/fplassist.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
-	
-	<script type="text/javascript">
-        function getTableOnload() {
-            $(document).ready(function() {
-                modal = document.getElementById('myModal')
-                $('#submit_btn').click();
-            });        
-        	}
-	
-    	if (window.addEventListener)
-    		window.addEventListener("load", getTableOnload, false);
-    	else if (window.attachEvent)
-    		window.attachEvent("onload", getTableOnload);
-    	else window.onload = getTableOnload;
-    </script>
 </head>
-
 <body>
 <div>
-	<div class="logoheader">
-    	<div onclick='expand_filter("adjustfilters")' style="float:left">
-            <img src="../static/images/adjusticon.png" style="width: 30px;margin-left: 5px; float:left">
-	    <a href="http://www.freebiebitcoin.com" style="float:left; margin-left:20px; color:#ffffff; margin-top: 3px;">Earn free bitcoin</a>
+	<div id="header-container">
+    	<div id="filter-btn">
+        	<img id="filter-icon" src="../static/images/adjusticon.png">
       </div>
-    	<div class="header_text">FPL Assist</div>
+      <div id="header-text">FPL Assist</div>
     </div>
-
-	<div id="myModal" class="modal">
-    	<div class="modal-content">
-	    	<div style="position:relative; ">
-  			<img id="team_logo" style="position:absolute; width:800px; margin-top: 100px; margin-left: 60%;display: block; opacity: 0.05;">
-	    	</div>
-        	<div style="overflow: auto; background-color: #38003c;"> 
-            	<span onclick="close_modal()" class="close">&times;</span>   
-        	</div>
-			<div id="detail_spinner" style="margin-left:50%; margin-top:100px; margin-bottom: 100px">
-    			<div class="loader"></div>
-			</div>
-        	<div id="player_detail" style="display:none">
-            	<div style="margin:35px;">
-                	<div style="overflow:auto;">
-                    	<img class="player_img" id="pl_img">
-                    	<div style="margin-top:25px; margin-bottom:25px; margin-left:45px; float:left">
-                        	<div id="pl_name" style="margin-bottom:15px; font-size:18px; font-weight:bold; letter-spacing: 1px;"></div>
-                        	<div id="pl_pos_team" style="margin-bottom:5px; font-size:14px; letter-spacing: 2px;"></div>
-                        	<div id="pl_news" style="margin-bottom:10px;font-size:14px;letter-spacing: 2px; background-color: #78F260; padding: 3px;">Match Fit!</div>
-                     </div>
-                     <div style="float:right"></div>
-                  </div>            	
-            	</div>
-    
-            	<hr>
-    
-            	<div style="margin:35px; overflow:auto">
-                	
-                	<div>
-                    	<div style="font-size:21px; width:100%; margin-bottom:25px">Player Base Stats</div>
-               	</div>
-               	<div class="group" style="width:100%">
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">Points</p>
-                        	<div id="points_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">Cost</p>
-                        	<div id="cost_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">Minutes</p>
-                        	<div id="minutes_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">TSB %</p>
-                        	<div id="tsb_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">PPG</p>
-                        	<div id="ppg_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">Goals</p>
-                        	<div id="goals_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">Assists</p>
-                        	<div id="assists_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">Cleans</p>
-                        	<div id="cleansheet_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">Transfer In</p>
-                        	<div id="transfer_in_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:140px;">
-                        	<p style="font-size:14px; margin-bottom:10px">Transfer Out</p>
-                        	<div id="transfer_out_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-               	</div>
-            	</div>
-            	<hr>    
-            	<div style="margin:35px; overflow:auto">
-                	<div>
-                    	<div style="font-size:21px; width:100%; margin-bottom:25px">Player Detailed Stats</div>
-               	</div>
-               	<div class="group" style="width:100%">
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">ICT Index</p>
-                        	<div id="ict_index_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Big Chances Created</p>
-                        	<div id="big_chances_created_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Big Chances Missed</p>
-                        	<div id="big_chances_missed_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Clearances/Blocks</p>
-                        	<div id="clearances_blocks_interceptions_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Recoveries</p>
-                        	<div id="recoveries_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Key Passes</p>
-                        	<div id="key_passes_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Tackles</p>
-                        	<div id="tackles_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Tackled</p>
-                        	<div id="tackled_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Winning Goals</p>
-                        	<div id="winning_goals_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Pass: Attempted</p>
-                        	<div id="attempted_passes_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Pass: Completed</p>
-                        	<div id="completed_passes_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Penalty Conceded</p>
-                        	<div id="penalties_conceded_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Crosses</p>
-                        	<div id="open_play_crosses_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Offside</p>
-                        	<div id="offside_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Target Missed</p>
-                        	<div id="target_missed_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Fouls</p>
-                        	<div id="fouls_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">Dribbles</p>
-                        	<div id="dribbles_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>  
-                    	<div style="float:left; width:160px; margin-bottom:25px">
-                        	<p style="font-size:14px; margin-bottom:10px">BPS</p>
-                        	<div id="bps_ph" style="font-weight:bold; font-size:24px"></div>
-                    </div>                                    
-               	</div>
-            	</div>
-            	<hr>    
-            	<div style="margin:35px; overflow:auto">
-                	<div>
-                    	<div style="font-size:21px; width:100%; margin-bottom:25px">Season Performance</div>
-               	</div>
-               	<div class="group" style="width:100%; margin-left: -15px;">
-                      <canvas id="canvas" class="chartjs-render-monitor"></canvas>
-               	</div>
-              </div>
-        	</div>
-        </div>
-    </div>
-    
-	<div style="display:flex; height:100%; padding-top: 30px;">
-		<div id="adjustfilters" class="filterlist" style="display:none">
+	 
+	 <div id="maincontent">
+    	 <div id="filter-container">
 			<br>
 			<div>
 			   <p style="margin-left:10px; font-size: 16px;">Adjust your search criteria: </p>
 			</div>
 			<br>
-			<form id="updateForm">
-    			{% csrf_token %}
-    			
-            <div class="filter_border">
-                <p onclick="expand_filter('player_info');" class="filterheader">+ Player Info</p>
-                
-                {% if player_info %}
-                <div id="player_info" style="display:none;" class="filtercategories">
-                {% for item in player_info %}
-                    <div id="{{ item.0 }}" class=filterborder>
-                        <div onclick="expand_filter('{{ item.1 }}');" class="filterentry">{{ item.2 }}<br></div>
-                        {% if item.3 %}
-                        <div id="{{item.1}}" style="display: none; margin-left: 10px;">
-                        {% for sub_item in item.3 %}
-                            <input name={{item.4}} value="{{sub_item}}" style="margin-left: 15px; margin-right: 5px;" type="checkbox" checked>
-                            <label style="font-size: 13px; vertical-align: middle;">{{sub_item}}</label>
-                            <br>
-                        {% endfor%}    
-                        </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                </div>
-                {% endif %}
-            </div>
-
-            <div class="filter_border">
-                <p onclick="expand_filter('player_base')" class="filterheader">+ Player Base Stats</p>
-                
-                {% if player_base_stat %}
-                <div id="player_base" style="display:none;" class="filtercategories">
-                {% for item in player_base_stat %}
-                    <div id="{{ item.0 }}" class="filterborder">
-                        <div onclick="expand_filter('{{ item.1 }}');" class="filterentry">{{ item.2 }}<br></div>
-                        {% if item.3 %}
-                        <div id="{{item.1}}" style="display: none; margin-left: 10px; margin-bottom: 5px;">
-                            <input name="{{item.3.0}}_min" value="{{item.3.1}}" min="{{item.3.1}}" max="{{item.3.2}}" step="{{item.3.3}}" style="margin-left: 15px; margin-right: 15px; text-align: right; width: 70px;" type="number">
-                            <input name="{{item.3.0}}_max" value="{{item.3.2}}" min="{{item.3.1}}" max="{{item.3.2}}" step="{{item.3.3}}" style="margin-left: 15px; margin-right: 15px; text-align: right; width: 70px;" type="number">
-                            <br>
-                        </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                </div>
-                {% endif %}
-            </div>
-            
-            <div class="filter_border">
-                <p onclick="expand_filter('player_deep')" class="filterheader">+ Player Deep Stats</p>
-                
-                {% if player_deep_stat %}
-                <div id="player_deep" style="display:none;" class="filtercategories">
-                {% for item in player_deep_stat %}
-                    <div id="{{ item.0 }}" class="filterborder">
-                        <div onclick="expand_filter('{{ item.1 }}');" class="filterentry">{{ item.2 }}<br></div>
-                        {% if item.3 %}
-                        <div id="{{item.1}}" style="display: none; margin-left: 10px; margin-bottom: 5px;">
-                            <input name="{{item.3.0}}_min" value="{{item.3.1}}" min="{{item.3.1}}" max="{{item.3.2}}" step="{{item.3.3}}" style="margin-left: 15px; margin-right: 15px; text-align: right; width: 70px;" type="number">
-                            <input name="{{item.3.0}}_max" value="{{item.3.2}}" min="{{item.3.1}}" max="{{item.3.2}}" step="{{item.3.3}}" style="margin-left: 15px; margin-right: 15px; text-align: right; width: 70px;" type="number">
-                            <br>
-                        </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                </div>
-                {% endif %}
-            </div>
-            <input id="submit_btn" class="update_btn" type="submit" value="Update">
-    		</form>
-		</div>
-		<div style="float:right; width:-moz-available; width:-webkit-fill-available; height:auto; overflow:auto">
-			<div style="overflow:auto">
-    			<div id="table_spinner" style="margin-left:45%; margin-top:5%; margin-bottom:5%">
-        			<div class="loader"></div>
-    			</div>
-				<table id="player_table">
-					<tbody><tr id="header_row" style="background-color: #38003C;">
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:10%;">Name</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Position</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:7%;">Team</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Points</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Cost</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:6%;">Transfer In</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:6%;">Transfer out</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Form</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Minutes</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:7%;">Selected By</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">PPG</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Goals</th>
-						<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Assists</th>
-    					<th onclick="sortTable(this)" style="color: #FFFFFF; width:6%;">Clean Sheet</th>
-    					<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Saves</th>
-    					<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">BPS</th>
-    					<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">ICT</th>
-    					<th onclick="sortTable(this)" style="color: #FFFFFF; width:5%;">Fouls</th>
-					</tr>
-				</tbody></table>
-			</div>
-		</div>
-		
-	</div>
+			<form id="update-form">
+              <div class="filter-border">
+                  <p class="filter-header">+ Player Info</p>
+                  <div id="player_info" class="filter-categories"></div>
+              </div>
+              <div class="filter-border">
+                  <p class="filter-header">+ Player Base Stats</p>
+                  <div id="player_base" class="filter-categories"></div>
+              </div>
+              <div class="filter-border">
+                  <p class="filter-header">+ Player Deep Stats</p>
+                  <div id="player_deep" class="filter-categories"></div>
+              </div>
+              <div class="filter-border">
+                  <p class="filter-header">+ Misc Options</p>
+                  <div id="misc_options" class="filter-categories"></div>
+              </div>
+			</form>
+    	 </div>
+    	 <div id="content-div">
+        	 <div class="loader"></div>
+        	 <div id="table-container"></div>
+    	 </div>
+	 </div>    
 </div>
-
-</body>
-</html>
+</body>	
